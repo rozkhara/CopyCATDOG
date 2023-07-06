@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Player : MonoBehaviour
 {
 
     Rigidbody2D Movement;
@@ -13,11 +13,13 @@ public class NewBehaviourScript : MonoBehaviour
 
     public GameObject WaterBomb;
     
-    public Vector2 pos;
+    private Vector2 pos;
     public LayerMask ChoosedLayer;
     
-    public int WBnum = 0;
-    
+    private int WBnum = 0;
+    public int Velocity = 3;
+    public bool Flowed = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,12 +43,12 @@ public class NewBehaviourScript : MonoBehaviour
 
         if (horizontal == 1)
         {
-            Movement.velocity = new Vector2(3, Movement.velocity.y);
+            Movement.velocity = new Vector2(Velocity, Movement.velocity.y);
             Show.flipX = false;
         }
         else if (horizontal == -1)
         {
-            Movement.velocity = new Vector2(-3, Movement.velocity.y);
+            Movement.velocity = new Vector2(-Velocity, Movement.velocity.y);
             Show.flipX = true;
         }
         else
@@ -56,9 +58,9 @@ public class NewBehaviourScript : MonoBehaviour
         }
 
         if (vertical == 1)
-            Movement.velocity = new Vector2(Movement.velocity.x, 3);
+            Movement.velocity = new Vector2(Movement.velocity.x, Velocity);
         else if (vertical == -1)
-            Movement.velocity = new Vector2(Movement.velocity.x, -3);
+            Movement.velocity = new Vector2(Movement.velocity.x, -Velocity);
         else
             Movement.velocity = new Vector2(Movement.velocity.x, 0);
 
