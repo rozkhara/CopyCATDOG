@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
     {
         Movement = GetComponent<Rigidbody2D>();
         Show = GetComponent<SpriteRenderer>();
-        Walk = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -63,11 +62,6 @@ public class Player : MonoBehaviour
             Movement.velocity = new Vector2(Movement.velocity.x, -Velocity);
         else
             Movement.velocity = new Vector2(Movement.velocity.x, 0);
-
-        if (horizontal == 0 && vertical == 0)
-            Walk.SetBool("IsWalking", false);
-        else
-            Walk.SetBool("IsWalking", true);
     }
 
     void TryBomb()
