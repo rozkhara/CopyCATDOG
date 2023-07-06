@@ -10,6 +10,8 @@ public class Controller : MonoBehaviour
 
     private Player1 player1Script;
     private Player2 player2Script;
+    private Vector3 player1InitialPos;
+    private Vector3 player2InitialPos;
 
 
     private void Start()
@@ -34,9 +36,10 @@ public class Controller : MonoBehaviour
 
     private void HandlePlayerMovement()
     {
-        float player1MoveX = Input.GetAxisRaw("Player1Horizontal");  
+        // Player 1 movement
+        float player1MoveX = Input.GetAxisRaw("Player1Horizontal");
         float player1MoveY = Input.GetAxisRaw("Player1Vertical");
-        Vector3 player1Movement = new Vector3(player1MoveX, player1MoveY, 0f).normalized; 
+        Vector3 player1Movement = new Vector3(player1MoveX, player1MoveY, 0f).normalized;
 
         // Restrict movement to four directions for player 1
         if (Mathf.Abs(player1Movement.x) > Mathf.Abs(player1Movement.y))
@@ -50,6 +53,7 @@ public class Controller : MonoBehaviour
 
         player1Script.transform.Translate(player1Movement * player1Script.playerSpeed * Time.deltaTime);
 
+        // Player 2 movement
         float player2MoveX = Input.GetAxisRaw("Player2Horizontal");
         float player2MoveY = Input.GetAxisRaw("Player2Vertical");
         Vector3 player2Movement = new Vector3(player2MoveX, player2MoveY, 0f).normalized;
@@ -57,25 +61,32 @@ public class Controller : MonoBehaviour
         // Restrict movement to four directions for player 2
         if (Mathf.Abs(player2Movement.x) > Mathf.Abs(player2Movement.y))
         {
-            player2Movement.y = 0f;  
+            player2Movement.y = 0f;
         }
         else
         {
-            player2Movement.x = 0f;  
+            player2Movement.x = 0f;
         }
 
         player2Script.transform.Translate(player2Movement * player2Script.playerSpeed * Time.deltaTime);
     }
 
 
-private void HandleBombSpawn()
+    private void HandleBombSpawn()
     {
         if (Input.GetButtonDown("Player1Bomb"))
         {
             if (player1Script.CurrentBombs < player1Script.maxBomb)
             {
-                SpawnBomb(player1Script);
-                player1Script.CurrentBombs++;
+                if (!IsBombInsideCollider(player1Script.GetComponent<Collider2D>()))
+                {
+                    SpawnBomb(player1Script, player2Script);
+                    player1Script.CurrentBombs++;
+                }
+                else
+                {
+                    Debug.Log("A bomb is already inside Player 1's collider");
+                }
             }
             else
             {
@@ -87,8 +98,15 @@ private void HandleBombSpawn()
         {
             if (player2Script.CurrentBombs < player2Script.maxBomb)
             {
-                SpawnBomb(player2Script);
-                player2Script.CurrentBombs++;
+                if (!IsBombInsideCollider(player2Script.GetComponent<Collider2D>()))
+                {
+                    SpawnBomb(player2Script, player1Script);
+                    player2Script.CurrentBombs++;
+                }
+                else
+                {
+                    Debug.Log("A bomb is already inside Player 2's collider");
+                }
             }
             else
             {
@@ -97,15 +115,42 @@ private void HandleBombSpawn()
         }
     }
 
-    private void SpawnBomb(Player1 player)
+    private bool IsBombInsideCollider(Collider2D playerCollider)
     {
-        GameObject bomb = Instantiate(bombPrefab, player.transform.position, Quaternion.identity);
-       //Bomb Pushed the player becasue of collider2D, still looking for solution
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(playerCollider.bounds.center, playerCollider.bounds.size, 0f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Bomb") && collider != playerCollider && collider.bounds.Intersects(playerCollider.bounds))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private void SpawnBomb(Player2 player)
+
+
+
+    private void SpawnBomb(Player1 player, Player2 otherPlayer)
     {
+        player1InitialPos = player.transform.position;
+        player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(bombPrefab, player.transform.position, Quaternion.identity);
-        //Bomb Pushed the player becasue of collider2D, still looking for solution
+        Collider2D bombCollider = bomb.GetComponent<Collider2D>();
+        bombCollider.isTrigger = true;  // Make the bomb a trigger initially
+
+        bomb.GetComponent<  Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
     }
+
+    private void SpawnBomb(Player2 player, Player1 otherPlayer)
+    {
+        player1InitialPos = player.transform.position;
+        player2InitialPos = otherPlayer.transform.position;
+        GameObject bomb = Instantiate(bombPrefab, player.transform.position, Quaternion.identity);
+        Collider2D bombCollider = bomb.GetComponent<Collider2D>();
+        bombCollider.isTrigger = true;  // Make the bomb a trigger initially
+
+        bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
+    }
+
 }
