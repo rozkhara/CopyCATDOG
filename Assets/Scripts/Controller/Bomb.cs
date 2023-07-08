@@ -22,7 +22,6 @@ public class Bomb : MonoBehaviour
 
         bombCollider.isTrigger = false;  // Make the bomb a solid collider
 
-        // Disable player collisions with the bomb while it is still in its initial position
         Physics2D.IgnoreCollision(bombCollider, player1Collider, true);
         Physics2D.IgnoreCollision(bombCollider, player2Collider, true);
 
@@ -54,6 +53,9 @@ public class Bomb : MonoBehaviour
                 Physics2D.IgnoreCollision(bombCollider, player2Collider, false);
             }
 
+            if (player1Moved && player2Moved)
+                break;
+
             yield return null;
         }
 
@@ -62,6 +64,14 @@ public class Bomb : MonoBehaviour
             Physics2D.IgnoreCollision(bombCollider, player1Collider, false);
             Physics2D.IgnoreCollision(bombCollider, player2Collider, false);
         }
-    }
 
+        var controller = FindObjectOfType<Controller>();
+        if (controller != null)
+        {
+            if (player == controller.player1Script)
+                controller.canPlaceBombPlayer1 = true;
+            else if (player == controller.player2Script)
+                controller.canPlaceBombPlayer2 = true;
+        }
+    }
 }

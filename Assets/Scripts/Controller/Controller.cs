@@ -8,11 +8,12 @@ public class Controller : MonoBehaviour
     public GameObject player2Prefab;
     public GameObject bombPrefab;
 
-    private Player1 player1Script;
-    private Player2 player2Script;
+    public Player1 player1Script;
+    public Player2 player2Script;
     private Vector3 player1InitialPos;
     private Vector3 player2InitialPos;
-
+    public bool canPlaceBombPlayer1 = true;
+    public bool canPlaceBombPlayer2 = true;
 
     private void Start()
     {
@@ -71,65 +72,36 @@ public class Controller : MonoBehaviour
         player2Script.transform.Translate(player2Movement * player2Script.playerSpeed * Time.deltaTime);
     }
 
-
     private void HandleBombSpawn()
     {
         if (Input.GetButtonDown("Player1Bomb"))
         {
-            if (player1Script.CurrentBombs < player1Script.maxBomb)
+            if (player1Script.CurrentBombs < player1Script.maxBomb && canPlaceBombPlayer1)
             {
-                if (!IsBombInsideCollider(player1Script.GetComponent<Collider2D>()))
-                {
-                    SpawnBomb(player1Script, player2Script);
-                    player1Script.CurrentBombs++;
-                }
-                else
-                {
-                    Debug.Log("A bomb is already inside Player 1's collider");
-                }
+                SpawnBomb(player1Script, player2Script);
+                player1Script.CurrentBombs++;
+                canPlaceBombPlayer1 = false;
             }
             else
             {
-                Debug.Log("Max bomb for player 1 reached");
+                Debug.Log("Max bomb for player 1 reached or cannot place bomb");
             }
         }
 
         if (Input.GetButtonDown("Player2Bomb"))
         {
-            if (player2Script.CurrentBombs < player2Script.maxBomb)
+            if (player2Script.CurrentBombs < player2Script.maxBomb && canPlaceBombPlayer2)
             {
-                if (!IsBombInsideCollider(player2Script.GetComponent<Collider2D>()))
-                {
-                    SpawnBomb(player2Script, player1Script);
-                    player2Script.CurrentBombs++;
-                }
-                else
-                {
-                    Debug.Log("A bomb is already inside Player 2's collider");
-                }
+                SpawnBomb(player2Script, player1Script);
+                player2Script.CurrentBombs++;
+                canPlaceBombPlayer2 = false;
             }
             else
             {
-                Debug.Log("Max bomb for player 2 reached");
+                Debug.Log("Max bomb for player 2 reached or cannot place bomb");
             }
         }
     }
-
-    private bool IsBombInsideCollider(Collider2D playerCollider)
-    {
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(playerCollider.bounds.center, playerCollider.bounds.size, 0f);
-        foreach (Collider2D collider in colliders)
-        {
-            if (collider.CompareTag("Bomb") && collider != playerCollider && collider.bounds.Intersects(playerCollider.bounds))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-
 
     private void SpawnBomb(Player1 player, Player2 otherPlayer)
     {
@@ -139,7 +111,7 @@ public class Controller : MonoBehaviour
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         bombCollider.isTrigger = true;  // Make the bomb a trigger initially
 
-        bomb.GetComponent<  Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
+        bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
     }
 
     private void SpawnBomb(Player2 player, Player1 otherPlayer)
@@ -153,4 +125,12 @@ public class Controller : MonoBehaviour
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Bomb"))
+        {
+            canPlaceBombPlayer1 = true;
+            canPlaceBombPlayer2 = true;
+        }
+    }
 }
