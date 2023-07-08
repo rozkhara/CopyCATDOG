@@ -8,7 +8,7 @@ public class GameSceneMove : MonoBehaviour
     // Start is called before the first frame update
     public void GameScenesCtrl()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Main Map");
         Debug.Log("Game Scenes Go");
     }
 
