@@ -1,24 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
 public class Player : MonoBehaviour
 {
-
     Rigidbody2D Movement;
     SpriteRenderer Show;
-    Animator Walk;
 
     public GameObject WaterBomb;
-    
+
     private Vector2 pos;
-    public LayerMask ChoosedLayer;
-    
+    public LayerMask WBLayer;
+
     private int WBnum = 0;
     public int Velocity = 3;
+
     public bool Flowed = false;
+    public GameObject Flow_Condition;
+    public int FlowLength = 10;
+    public int WBNum = 0;
 
 
     // Start is called before the first frame update
@@ -26,6 +29,8 @@ public class Player : MonoBehaviour
     {
         Movement = GetComponent<Rigidbody2D>();
         Show = GetComponent<SpriteRenderer>();
+        StartCoroutine("PlayerFlowed");
+        
     }
 
     // Update is called once per frame
@@ -73,20 +78,39 @@ public class Player : MonoBehaviour
             float posY = transform.position.y;
             pos = new Vector2(Mathf.RoundToInt(posX), Mathf.RoundToInt(posY));
 
-            if (WhetherWB() == 1)
+            if (WhetherWB() == true)
             {
                 Instantiate(WaterBomb, pos, transform.rotation);
+                WaterBomb_Execute WBInfo = WaterBomb.GetComponent<WaterBomb_Execute>();
+                WBInfo.FlowLength = FlowLength;
                 WBnum++;
             }
         }
     }
 
-    int WhetherWB()
+    bool WhetherWB()
     {
-        Collider2D recog = Physics2D.OverlapBox(pos, new Vector2(1, 1), 0f, ChoosedLayer);
+        Collider2D Recog_WB = Physics2D.OverlapBox(pos, new Vector2(1, 1), 0f, WBLayer);
 
-        if (recog != null) return 0;
+        if (Recog_WB != null) return false;
 
-        return 1;
+        return true;
+    }
+
+    IEnumerator PlayerFlowed()
+    {
+        while (true)
+        {
+            if (Flowed == true)
+            {
+                float PlayerX = transform.position.x;
+                float PlayerY = transform.position.y;
+                Vector2 PlayerPos = new Vector2(PlayerX, PlayerY);
+
+                Instantiate(Flow_Condition, PlayerPos, transform.rotation).transform.parent = this.transform;
+                yield break;
+            }
+            yield return null;
+        }
     }
 }

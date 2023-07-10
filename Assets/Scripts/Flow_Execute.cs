@@ -17,7 +17,7 @@ public class Flow_Execute : MonoBehaviour
     private Vector2 FlowposYp;
     private Vector2 FlowposYm;
 
-    private float FlowLength = 10;
+    public float FlowLength;
 
     private RaycastHit2D HitR;
     private RaycastHit2D HitL;
@@ -130,22 +130,26 @@ public class Flow_Execute : MonoBehaviour
 
         if (HitR == true)
         {
-            Destroy(HitR.collider.gameObject);
+            if(HitR.collider.gameObject.CompareTag("CanDestroy"))
+                Destroy(HitR.collider.gameObject);
             FlowR = HitR.distance;
         }
         if (HitL == true)
         {
-            Destroy(HitL.collider.gameObject);
+            if (HitL.collider.gameObject.CompareTag("CanDestroy"))
+                Destroy(HitL.collider.gameObject);
             FlowL = HitL.distance;
         }
         if (HitU == true)
         {
-            Destroy(HitU.collider.gameObject);
+            if (HitU.collider.gameObject.CompareTag("CanDestroy"))
+                Destroy(HitU.collider.gameObject);
             FlowU = HitU.distance;
         }
         if (HitD == true)
         {
-            Destroy(HitD.collider.gameObject);
+            if (HitD.collider.gameObject.CompareTag("CanDestroy"))
+                Destroy(HitD.collider.gameObject);
             FlowD = HitD.distance;
         }
     }

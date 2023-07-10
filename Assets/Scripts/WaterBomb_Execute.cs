@@ -10,6 +10,7 @@ public class WaterBomb_Execute : MonoBehaviour
     private float CurrentTime;
 
     private Vector2 WBpos;
+    public float FlowLength;
 
     public GameObject Flow_Center;
 
@@ -18,6 +19,8 @@ public class WaterBomb_Execute : MonoBehaviour
     void Awake()
     {
         WBpos = new Vector2(transform.position.x, transform.position.y);
+        Flow_Execute WBInfo = Flow_Center.GetComponent<Flow_Execute>();
+        WBInfo.FlowLength = FlowLength;
     }
 
     void Start()
