@@ -7,26 +7,29 @@ public class Copy_Controller : MonoBehaviour
     public GameObject player1Prefab;
     public GameObject player2Prefab;
     public GameObject bombPrefab;
+    public GameObject WaterBomb;
 
     public Player1 player1Script;
     public Player2 player2Script;
     private Vector3 player1InitialPos;
     private Vector3 player2InitialPos;
-    public bool canPlaceBombPlayer1 = true;
-    public bool canPlaceBombPlayer2 = true;
 
+    public GameObject MG;
     private MapGenerator mapGeneratorScript;
 
     private void Start()
     {
         SpawnPlayers();
-        /*mapGeneratorScript = GetComponent<MapGenerator>();
-        Debug.Log("GetComponent MapGenerator is completed.");*/
+        mapGeneratorScript = MG.GetComponent<MapGenerator>();
+        //Debug.Log("GetComponent MapGenerator is completed.");
+    }
+    private void FixedUpdate()
+    {
+        HandlePlayerMovement();
     }
 
     private void Update()
     {
-        HandlePlayerMovement();
         HandleBombSpawn();
     }
 
@@ -56,7 +59,7 @@ public class Copy_Controller : MonoBehaviour
             player1Movement.x = 0f;
         }
 
-        player1Script.transform.Translate(player1Movement * player1Script.playerSpeed * Time.deltaTime);
+        player1Script.transform.Translate(player1Movement * player1Script.PlayerSpeed * Time.deltaTime);
 
         // Player 2 movement
         float player2MoveX = Input.GetAxisRaw("Player2Horizontal");
@@ -73,74 +76,78 @@ public class Copy_Controller : MonoBehaviour
             player2Movement.x = 0f;
         }
 
-        player2Script.transform.Translate(player2Movement * player2Script.playerSpeed * Time.deltaTime);
+        player2Script.transform.Translate(player2Movement * player2Script.PlayerSpeed * Time.fixedDeltaTime);
     }
 
     private void HandleBombSpawn()
     {
-        if (Input.GetButtonDown("Player1Bomb"))
+        if (Input.GetButtonDown("Player1Bomb") && player1Script.CurrentBombs < player1Script.maxBomb)
         {
-            if (player1Script.CurrentBombs < player1Script.maxBomb && canPlaceBombPlayer1)
+            if (CanPlaceBomb(player1Script.transform.position))
             {
                 SpawnBomb(player1Script, player2Script);
                 player1Script.CurrentBombs++;
-                canPlaceBombPlayer1 = false;
             }
             else
             {
-                Debug.Log("Max bomb for player 1 reached or cannot place bomb");
+                Debug.Log("Cannot place bomb at the current position.");
             }
         }
 
-        if (Input.GetButtonDown("Player2Bomb"))
+        if (Input.GetButtonDown("Player2Bomb") && player2Script.CurrentBombs < player2Script.maxBomb)
         {
-            if (player2Script.CurrentBombs < player2Script.maxBomb && canPlaceBombPlayer2)
+            if (CanPlaceBomb(player2Script.transform.position))
             {
                 SpawnBomb(player2Script, player1Script);
                 player2Script.CurrentBombs++;
-                canPlaceBombPlayer2 = false;
             }
             else
             {
-                Debug.Log("Max bomb for player 2 reached or cannot place bomb");
+                Debug.Log("Cannot place bomb at the current position.");
             }
         }
+    }
+    private bool CanPlaceBomb(Vector3 bombPosition)
+    {
+        // Check if there is already a bomb at the target position
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(bombPosition, 0.5f); // Adjust the radius as needed
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Bomb"))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void SpawnBomb(Player1 player, Player2 otherPlayer)
     {
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
-        GameObject bomb = Instantiate(bombPrefab, player.transform.position, Quaternion.identity);
-        // Snapping(bomb); //snaping the bomb
-       // FindAndTransformObject(bomb);
+        GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        bombCollider.isTrigger = true;  // Make the bomb a trigger initially
-        
+        FindAndTransformObject(bomb);
+        bombCollider.isTrigger = true;
+
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
+        bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
     }
 
     private void SpawnBomb(Player2 player, Player1 otherPlayer)
     {
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
-        GameObject bomb = Instantiate(bombPrefab, player.transform.position, Quaternion.identity);
-        //Snapping(bomb); //snaping the bomb
-       // FindAndTransformObject(bomb);
+        GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        bombCollider.isTrigger = true;  // Make the bomb a trigger initially
+        FindAndTransformObject(bomb);
+        bombCollider.isTrigger = true;
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
+        bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Bomb"))
-        {
-            canPlaceBombPlayer1 = true;
-            canPlaceBombPlayer2 = true;
-        }
-    }
 
     /*private void Snapping(GameObject targetObject)
     {
@@ -164,7 +171,6 @@ public class Copy_Controller : MonoBehaviour
         Transform nearestObject = null;
 
         float shortestDistance = Mathf.Infinity;
-        mapGeneratorScript = targetObject.GetComponent<MapGenerator>();
         if (mapGeneratorScript != null)
         {
             for (int y = 0; y < mapGeneratorScript.mapTiles.Count; y++)

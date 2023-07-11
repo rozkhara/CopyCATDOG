@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6077204026299174941}
   - component: {fileID: 5889000856559075971}
   - component: {fileID: 8298285154158885972}
+  - component: {fileID: 9201613434904424400}
   m_Layer: 3
   m_Name: Copy_Player1
   m_TagString: Player1
@@ -173,4 +174,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxBomb: 3
   CurrentBombs: 0
-  playerSpeed: 10
+  PlayerSpeed: 0
+  BombExplosionRange: 5
+--- !u!114 &9201613434904424400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2529393963659807983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57b5a345b49913c49bb85633f9051fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Flowed: 0
+  Flow_Condition: {fileID: 4722547937941086577, guid: 984397b3f7e8fb94580f9eddc4d806d1, type: 3}
+  FlowLength: 10
+  Velocity: 5

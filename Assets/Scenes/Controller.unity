@@ -550,8 +550,6 @@ MonoBehaviour:
   WaterBomb: {fileID: 4173987505576844063, guid: 312cc4f2b1494d6439ad2fe843a8fd01, type: 3}
   player1Script: {fileID: 0}
   player2Script: {fileID: 0}
-  canPlaceBombPlayer1: 1
-  canPlaceBombPlayer2: 1
 --- !u!4 &1284567728
 Transform:
   m_ObjectHideFlags: 0

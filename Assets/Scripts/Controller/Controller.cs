@@ -55,7 +55,7 @@ public class Controller : MonoBehaviour
             player1Movement.x = 0f;
         }
 
-        player1Script.transform.Translate(player1Movement * player1Script.playerSpeed * Time.fixedDeltaTime);
+        player1Script.transform.Translate(player1Movement * player1Script.PlayerSpeed * Time.fixedDeltaTime);
 
         // Player 2 movement
         float player2MoveX = Input.GetAxisRaw("Player2Horizontal");
@@ -72,7 +72,7 @@ public class Controller : MonoBehaviour
             player2Movement.x = 0f;
         }
 
-        player2Script.transform.Translate(player2Movement * player2Script.playerSpeed * Time.fixedDeltaTime);
+        player2Script.transform.Translate(player2Movement * player2Script.PlayerSpeed * Time.fixedDeltaTime);
     }
 
     private void HandleBombSpawn()
