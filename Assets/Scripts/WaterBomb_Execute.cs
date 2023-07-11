@@ -30,11 +30,6 @@ public class WaterBomb_Execute : MonoBehaviour
 
     // Start is called before the first frame update
 
-    void Awake()
-    {
-        WBpos = new Vector2(transform.position.x, transform.position.y);
-    }
-
     void Start()
     {
         StartCoroutine("WBExceed");
@@ -42,9 +37,16 @@ public class WaterBomb_Execute : MonoBehaviour
 
     IEnumerator WBExceed()
     {
+        StartCoroutine("GetWBPos");
         yield return new WaitForSeconds(3f);
-        Debug.Log("WBExceed");
         StartCoroutine("WBBurst");
+    }
+
+    IEnumerator GetWBPos()
+    {
+        yield return new WaitForSeconds(0.3f);
+        WBpos = new Vector2(transform.position.x, transform.position.y);
+        yield break;
     }
 
     IEnumerator WBBurst()

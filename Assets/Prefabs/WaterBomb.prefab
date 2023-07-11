@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3769035646788176649}
   - component: {fileID: 5241087024533137057}
   - component: {fileID: -120712182813980358}
-  - component: {fileID: 7731633957600060735}
+  - component: {fileID: 7258993985180602388}
   m_Layer: 6
   m_Name: WaterBomb
   m_TagString: Bomb
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FlowLength: 10
---- !u!114 &7731633957600060735
+--- !u!114 &7258993985180602388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

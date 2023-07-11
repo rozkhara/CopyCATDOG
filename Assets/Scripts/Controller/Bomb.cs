@@ -38,7 +38,6 @@ public class Bomb : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         OnBombDestroyed?.Invoke();
-        Destroy(gameObject);
     }
 
     private IEnumerator CheckPlayerMovement()
