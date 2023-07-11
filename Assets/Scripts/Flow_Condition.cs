@@ -7,28 +7,41 @@ using UnityEngine;
 public class Flow_Condition : MonoBehaviour
 {
     private string ParentTag;
-    private Vector2 ParentPosition;
+
+    private Collider2D Flow;
+    private ContactFilter2D PlayerFilter;
+    private LayerMask PlayerLayer = 8;
+    private Collider2D[] Results = new Collider2D[2];
+
+    private int IsOverlap;
 
     // Start is called before the first frame update
     void Awake()
     {
-        ParentTag = transform.GetComponentInParent<Transform>().tag;
-        ParentPosition = transform.GetComponentInParent<Transform>().position;
+        Flow = GetComponent<Collider2D>();
+        StartCoroutine("TagSetting");
+        PlayerFilter.SetLayerMask(PlayerLayer);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = ParentPosition;
-        Debug.Log(ParentTag);
+        OverlapPlayer();
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    IEnumerator TagSetting()
     {
-        if (collision.gameObject.layer == 128)
+        yield return new WaitForSeconds(0.01f);
+        ParentTag = transform.parent.tag;
+    }
+
+    private void OverlapPlayer()
+    {
+        IsOverlap = Physics2D.OverlapCollider(Flow, PlayerFilter, Results);
+
+        if(IsOverlap > 1)
         {
-            if (!collision.CompareTag(ParentTag))
-                Debug.Log("Die!");
+            Debug.Log("Overlap");
         }
     }
 }

@@ -7,6 +7,7 @@ public class Controller : MonoBehaviour
     public GameObject player1Prefab;
     public GameObject player2Prefab;
     public GameObject bombPrefab;
+    public GameObject WaterBomb;
 
     public Player1 player1Script;
     public Player2 player2Script;
@@ -52,7 +53,7 @@ public class Controller : MonoBehaviour
             player1Movement.x = 0f;
         }
 
-        player1Script.transform.Translate(player1Movement * player1Script.playerSpeed * Time.deltaTime);
+        player1Script.transform.Translate(player1Movement * player1Script.PlayerSpeed * Time.deltaTime);
 
         // Player 2 movement
         float player2MoveX = Input.GetAxisRaw("Player2Horizontal");
@@ -69,7 +70,7 @@ public class Controller : MonoBehaviour
             player2Movement.x = 0f;
         }
 
-        player2Script.transform.Translate(player2Movement * player2Script.playerSpeed * Time.deltaTime);
+        player2Script.transform.Translate(player2Movement * player2Script.PlayerSpeed * Time.deltaTime);
     }
 
     private void HandleBombSpawn()
@@ -107,7 +108,7 @@ public class Controller : MonoBehaviour
     {
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
-        GameObject bomb = Instantiate(bombPrefab, player.transform.position, Quaternion.identity);
+        GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         bombCollider.isTrigger = true;  // Make the bomb a trigger initially
 
@@ -118,7 +119,7 @@ public class Controller : MonoBehaviour
     {
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
-        GameObject bomb = Instantiate(bombPrefab, player.transform.position, Quaternion.identity);
+        GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         bombCollider.isTrigger = true;  // Make the bomb a trigger initially
 
