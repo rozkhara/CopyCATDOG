@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1302140811039665604}
   - component: {fileID: 6560591471359813977}
   - component: {fileID: -6592956566648024870}
+  - component: {fileID: -3485547148911822213}
   m_Layer: 3
   m_Name: Player2
   m_TagString: Player2
@@ -173,4 +174,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxBomb: 5
   CurrentBombs: 0
-  playerSpeed: 5
+  PlayerSpeed: 0
+  BombExplosionRange: 5
+--- !u!114 &-3485547148911822213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7759527791707479610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57b5a345b49913c49bb85633f9051fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Flowed: 0
+  Flow_Condition: {fileID: 4722547937941086577, guid: 984397b3f7e8fb94580f9eddc4d806d1, type: 3}
+  FlowLength: 10
+  Velocity: 5

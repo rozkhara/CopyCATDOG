@@ -5,6 +5,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - WaterBomb: {fileID: 4173987505576844063, guid: 312cc4f2b1494d6439ad2fe843a8fd01, type: 3}
+  - Flow_Condition: {fileID: 4722547937941086577, guid: 984397b3f7e8fb94580f9eddc4d806d1, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -22,6 +22,7 @@ public class Bomb : MonoBehaviour
     {
         this.bombCollider = bombCollider;
         this.player1Collider = player1Collider;
+
         this.player2Collider = player2Collider;
         this.player = player;
 

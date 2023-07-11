@@ -7,6 +7,7 @@ public class Controller : MonoBehaviour
     public GameObject player1Prefab;
     public GameObject player2Prefab;
     public GameObject bombPrefab;
+    public GameObject WaterBomb;
 
     public Player1 player1Script;
     public Player2 player2Script;
@@ -122,17 +123,7 @@ public class Controller : MonoBehaviour
     {
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
-
-        // Get the player position
-        Vector3 playerPosition = player.transform.position;
-
-        // Calculate the offset to spawn the bomb below the player
-        float yOffset = -player.GetComponent<SpriteRenderer>().bounds.extents.y + 0.5f;
-
-        // Offset the bomb spawn position by the yOffset
-        Vector3 bombSpawnPosition = playerPosition + new Vector3(0f, yOffset, 0f);
-
-        GameObject bomb = Instantiate(bombPrefab, bombSpawnPosition, Quaternion.identity);
+        GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         bombCollider.isTrigger = true;  
 
@@ -144,16 +135,7 @@ public class Controller : MonoBehaviour
     {
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
-
-        Vector3 playerPosition = player.transform.position;
-
-        // Calculate the offset to spawn the bomb below the player
-        float yOffset = -player.GetComponent<SpriteRenderer>().bounds.extents.y + 0.5f;
-
-        // Offset the bomb spawn position by the yOffset
-        Vector3 bombSpawnPosition = playerPosition + new Vector3(0f, yOffset, 0f);
-
-        GameObject bomb = Instantiate(bombPrefab, bombSpawnPosition, Quaternion.identity);
+        GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         bombCollider.isTrigger = true;  
 
