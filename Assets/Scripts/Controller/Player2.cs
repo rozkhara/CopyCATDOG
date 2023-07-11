@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player2 : MonoBehaviour
 {
-    public int maxBomb = 1;
+    public int maxBomb = 5;
     public int CurrentBombs = 0;
     public float playerSpeed = 5f;
 

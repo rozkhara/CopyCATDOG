@@ -12,17 +12,19 @@ public class Controller : MonoBehaviour
     public Player2 player2Script;
     private Vector3 player1InitialPos;
     private Vector3 player2InitialPos;
-    public bool canPlaceBombPlayer1 = true;
-    public bool canPlaceBombPlayer2 = true;
 
     private void Start()
     {
         SpawnPlayers();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         HandlePlayerMovement();
+    }
+
+    private void Update()
+    {
         HandleBombSpawn();
     }
 
@@ -52,7 +54,7 @@ public class Controller : MonoBehaviour
             player1Movement.x = 0f;
         }
 
-        player1Script.transform.Translate(player1Movement * player1Script.playerSpeed * Time.deltaTime);
+        player1Script.transform.Translate(player1Movement * player1Script.playerSpeed * Time.fixedDeltaTime);
 
         // Player 2 movement
         float player2MoveX = Input.GetAxisRaw("Player2Horizontal");
@@ -69,68 +71,93 @@ public class Controller : MonoBehaviour
             player2Movement.x = 0f;
         }
 
-        player2Script.transform.Translate(player2Movement * player2Script.playerSpeed * Time.deltaTime);
+        player2Script.transform.Translate(player2Movement * player2Script.playerSpeed * Time.fixedDeltaTime);
     }
 
     private void HandleBombSpawn()
     {
-        if (Input.GetButtonDown("Player1Bomb"))
+        if (Input.GetButtonDown("Player1Bomb") && player1Script.CurrentBombs < player1Script.maxBomb)
         {
-            if (player1Script.CurrentBombs < player1Script.maxBomb && canPlaceBombPlayer1)
+            if (CanPlaceBomb(player1Script.transform.position))
             {
                 SpawnBomb(player1Script, player2Script);
                 player1Script.CurrentBombs++;
-                canPlaceBombPlayer1 = false;
             }
             else
             {
-                Debug.Log("Max bomb for player 1 reached or cannot place bomb");
+                Debug.Log("Cannot place bomb at the current position.");
             }
         }
 
-        if (Input.GetButtonDown("Player2Bomb"))
+        if (Input.GetButtonDown("Player2Bomb") && player2Script.CurrentBombs < player2Script.maxBomb)
         {
-            if (player2Script.CurrentBombs < player2Script.maxBomb && canPlaceBombPlayer2)
+            if (CanPlaceBomb(player2Script.transform.position))
             {
                 SpawnBomb(player2Script, player1Script);
                 player2Script.CurrentBombs++;
-                canPlaceBombPlayer2 = false;
             }
             else
             {
-                Debug.Log("Max bomb for player 2 reached or cannot place bomb");
+                Debug.Log("Cannot place bomb at the current position.");
             }
         }
+    }
+
+    private bool CanPlaceBomb(Vector3 bombPosition)
+    {
+        // Check if there is already a bomb at the target position
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(bombPosition, 0.5f); // Adjust the radius as needed
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Bomb"))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void SpawnBomb(Player1 player, Player2 otherPlayer)
     {
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
-        GameObject bomb = Instantiate(bombPrefab, player.transform.position, Quaternion.identity);
+
+        // Get the player position
+        Vector3 playerPosition = player.transform.position;
+
+        // Calculate the offset to spawn the bomb below the player
+        float yOffset = -player.GetComponent<SpriteRenderer>().bounds.extents.y + 0.5f;
+
+        // Offset the bomb spawn position by the yOffset
+        Vector3 bombSpawnPosition = playerPosition + new Vector3(0f, yOffset, 0f);
+
+        GameObject bomb = Instantiate(bombPrefab, bombSpawnPosition, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        bombCollider.isTrigger = true;  // Make the bomb a trigger initially
+        bombCollider.isTrigger = true;  
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
+        bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
     }
 
     private void SpawnBomb(Player2 player, Player1 otherPlayer)
     {
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
-        GameObject bomb = Instantiate(bombPrefab, player.transform.position, Quaternion.identity);
+
+        Vector3 playerPosition = player.transform.position;
+
+        // Calculate the offset to spawn the bomb below the player
+        float yOffset = -player.GetComponent<SpriteRenderer>().bounds.extents.y + 0.5f;
+
+        // Offset the bomb spawn position by the yOffset
+        Vector3 bombSpawnPosition = playerPosition + new Vector3(0f, yOffset, 0f);
+
+        GameObject bomb = Instantiate(bombPrefab, bombSpawnPosition, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        bombCollider.isTrigger = true;  // Make the bomb a trigger initially
+        bombCollider.isTrigger = true;  
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Bomb"))
-        {
-            canPlaceBombPlayer1 = true;
-            canPlaceBombPlayer2 = true;
-        }
+        bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
     }
 }
