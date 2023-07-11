@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,9 +9,13 @@ public class Bomb : MonoBehaviour
     private Collider2D player2Collider;
     private MonoBehaviour player;
 
+    public event Action OnBombDestroyed;
+
     private void Start()
     {
         bombCollider = GetComponent<Collider2D>();
+        bombCollider.enabled = false; // Disable bomb collider when spawned
+        StartCoroutine(DestroyAfterTime(3f));
     }
 
     public void EnablePlayerCollision(Collider2D bombCollider, Collider2D player1Collider, Collider2D player2Collider, MonoBehaviour player)
@@ -20,12 +25,19 @@ public class Bomb : MonoBehaviour
         this.player2Collider = player2Collider;
         this.player = player;
 
-        bombCollider.isTrigger = false;  // Make the bomb a solid collider
-
-        Physics2D.IgnoreCollision(bombCollider, player1Collider, true);
-        Physics2D.IgnoreCollision(bombCollider, player2Collider, true);
+        bombCollider.isTrigger = false; // Make the bomb a solid collider
+        bombCollider.enabled = true;    // Enable the bomb collider
 
         StartCoroutine(CheckPlayerMovement());
+        StartCoroutine(DestroyAfterTime(3f));
+    }
+
+    private IEnumerator DestroyAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        OnBombDestroyed?.Invoke();
+        Destroy(gameObject);
     }
 
     private IEnumerator CheckPlayerMovement()
@@ -34,23 +46,26 @@ public class Bomb : MonoBehaviour
         bool player2Moved = false;
         float timer = 0f;
 
-        Vector2 player1InitialPos = player1Collider.transform.position;
-        Vector2 player2InitialPos = player2Collider.transform.position;
+        float minDistanceToPlayer1 = Vector2.Distance(transform.position, player1Collider.bounds.ClosestPoint(transform.position));
+        float minDistanceToPlayer2 = Vector2.Distance(transform.position, player2Collider.bounds.ClosestPoint(transform.position));
 
         while ((!player1Moved || !player2Moved) && timer < 3f)
         {
             timer += Time.deltaTime;
 
-            if (!player1Moved && (Vector2)player1Collider.transform.position != player1InitialPos)
+            float currentDistanceToPlayer1 = Vector2.Distance(transform.position, player1Collider.bounds.ClosestPoint(transform.position));
+            float currentDistanceToPlayer2 = Vector2.Distance(transform.position, player2Collider.bounds.ClosestPoint(transform.position));
+
+            if (!player1Moved && currentDistanceToPlayer1 > minDistanceToPlayer1)
             {
                 player1Moved = true;
-                Physics2D.IgnoreCollision(bombCollider, player1Collider, false);
+                bombCollider.enabled = true; // Enable the bomb collider when player 1 moves away from the bomb
             }
 
-            if (!player2Moved && (Vector2)player2Collider.transform.position != player2InitialPos)
+            if (!player2Moved && currentDistanceToPlayer2 > minDistanceToPlayer2)
             {
                 player2Moved = true;
-                Physics2D.IgnoreCollision(bombCollider, player2Collider, false);
+                bombCollider.enabled = true; // Enable the bomb collider when player 2 moves away from the bomb
             }
 
             if (player1Moved && player2Moved)
@@ -58,20 +73,6 @@ public class Bomb : MonoBehaviour
 
             yield return null;
         }
-
-        if (timer >= 3f && (!player1Moved || !player2Moved))
-        {
-            Physics2D.IgnoreCollision(bombCollider, player1Collider, false);
-            Physics2D.IgnoreCollision(bombCollider, player2Collider, false);
-        }
-
-        var controller = FindObjectOfType<Controller>();
-        if (controller != null)
-        {
-            if (player == controller.player1Script)
-                controller.canPlaceBombPlayer1 = true;
-            else if (player == controller.player2Script)
-                controller.canPlaceBombPlayer2 = true;
-        }
     }
+
 }
