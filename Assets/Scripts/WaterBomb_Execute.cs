@@ -9,10 +9,6 @@ using UnityEngine.InputSystem.HID;
 public class WaterBomb_Execute : MonoBehaviour
 {
     private Vector2 WBpos;
-    private Vector2 FlowposXp;
-    private Vector2 FlowposXm;
-    private Vector2 FlowposYp;
-    private Vector2 FlowposYm;
 
     public float FlowLength = 10f;
 
@@ -25,8 +21,6 @@ public class WaterBomb_Execute : MonoBehaviour
     private float FlowL;
     private float FlowU;
     private float FlowD;
-
-    private GameObject FlowedPlayer;
 
     // Start is called before the first frame update
 
@@ -51,24 +45,14 @@ public class WaterBomb_Execute : MonoBehaviour
 
     IEnumerator WBBurst()
     {
-        FlowPosSetting();
+        FlowSetting();
         WBBurstBlock();
-        yield return new WaitForSeconds(0.1f);
         WBBurstPlayer();
-        yield return new WaitForSeconds(0.01f);
         Destroy(gameObject);
+        yield break;
     }
-
-    void FlowPosSetting()
-    {
-        FlowposYp = new Vector2(WBpos.x, WBpos.y + 0.4f);
-        FlowposYm = new Vector2(WBpos.x, WBpos.y - 0.4f);
-
-        FlowposXp = new Vector2(WBpos.x + 0.4f, WBpos.y);
-        FlowposXm = new Vector2(WBpos.x - 0.4f, WBpos.y);
-    }
-
-    void WBBurstBlock()
+    
+    void FlowSetting()
     {
         FlowR = FlowLength;
         FlowL = FlowLength;
@@ -81,68 +65,55 @@ public class WaterBomb_Execute : MonoBehaviour
         HitD = Physics2D.Raycast(WBpos, new Vector2(0, -1), FlowLength, 256);
 
         if (HitR == true)
-        {
+            FlowR = HitR.distance;
+        if (HitL == true)
+            FlowL = HitL.distance;
+        if (HitU == true)
+            FlowU = HitU.distance;
+        if (HitD == true)
+            FlowD = HitD.distance;
+    }
+
+    void WBBurstBlock()
+    {
+        if (HitR == true)
             if (HitR.collider.gameObject.CompareTag("CanDestroy"))
                 Destroy(HitR.collider.gameObject);
-            FlowR = HitR.distance;
-        }
+
         if (HitL == true)
-        {
             if (HitL.collider.gameObject.CompareTag("CanDestroy"))
                 Destroy(HitL.collider.gameObject);
-            FlowL = HitL.distance;
-        }
+
         if (HitU == true)
-        {
             if (HitU.collider.gameObject.CompareTag("CanDestroy"))
                 Destroy(HitU.collider.gameObject);
-            FlowU = HitU.distance;
-        }
+
         if (HitD == true)
-        {
             if (HitD.collider.gameObject.CompareTag("CanDestroy"))
                 Destroy(HitD.collider.gameObject);
-            FlowD = HitD.distance;
-        }
     }
 
     void WBBurstPlayer()
     {
-        List<string> HitPlayer = new List<string>();
+        List<Collider2D> HitPlayer = new List<Collider2D>();
 
-        RaycastHit2D[] HitinfoR1 = Physics2D.RaycastAll(FlowposYp, new Vector2(1, 0), FlowR, 8);
-        RaycastHit2D[] HitinfoR2 = Physics2D.RaycastAll(FlowposYm, new Vector2(1, 0), FlowR, 8);
-        RaycastHit2D[] HitinfoL1 = Physics2D.RaycastAll(FlowposYp, new Vector2(-1, 0), FlowL, 8);
-        RaycastHit2D[] HitinfoL2 = Physics2D.RaycastAll(FlowposYm, new Vector2(-1, 0), FlowL, 8);
+        RaycastHit2D[] HitinfoR = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(1, 0), FlowR, 8);
+        RaycastHit2D[] HitinfoL = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(-1, 0), FlowL, 8);
+        RaycastHit2D[] HitinfoU = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(0, 1), FlowU, 8);
+        RaycastHit2D[] HitinfoD = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(0, -1), FlowD, 8);
 
-        RaycastHit2D[] HitinfoU1 = Physics2D.RaycastAll(FlowposXm, new Vector2(0, 1), FlowU, 8);
-        RaycastHit2D[] HitinfoU2 = Physics2D.RaycastAll(FlowposXp, new Vector2(0, 1), FlowU, 8);
-        RaycastHit2D[] HitinfoD1 = Physics2D.RaycastAll(FlowposXm, new Vector2(0, -1), FlowD, 8);
-        RaycastHit2D[] HitinfoD2 = Physics2D.RaycastAll(FlowposXp, new Vector2(0, -1), FlowD, 8);
+        foreach (RaycastHit2D player in HitinfoR)
+            HitPlayer.Add(player.collider);
+        foreach (RaycastHit2D player in HitinfoL)
+            HitPlayer.Add(player.collider);
+        foreach (RaycastHit2D player in HitinfoU)
+            HitPlayer.Add(player.collider);
+        foreach (RaycastHit2D player in HitinfoD)
+            HitPlayer.Add(player.collider);
 
-        foreach (RaycastHit2D player in HitinfoR1)
-            HitPlayer.Add(player.collider.name);
-        foreach (RaycastHit2D player in HitinfoR2)
-            HitPlayer.Add(player.collider.name);
-        foreach (RaycastHit2D player in HitinfoL1)
-            HitPlayer.Add(player.collider.name);
-        foreach (RaycastHit2D player in HitinfoL2)
-            HitPlayer.Add(player.collider.name);
-
-        foreach (RaycastHit2D player in HitinfoU1)
-            HitPlayer.Add(player.collider.name);
-        foreach (RaycastHit2D player in HitinfoU2)
-            HitPlayer.Add(player.collider.name);
-        foreach (RaycastHit2D player in HitinfoD1)
-            HitPlayer.Add(player.collider.name);
-        foreach (RaycastHit2D player in HitinfoD2)
-            HitPlayer.Add(player.collider.name);
-
-        HitPlayer.Distinct();
         for (int i = 0; i < HitPlayer.Count; i++)
         {
-            FlowedPlayer = GameObject.Find(HitPlayer[i]);
-            Player FlowedPlayerInfo = FlowedPlayer.GetComponent<Player>();
+            Player FlowedPlayerInfo = HitPlayer[i].GetComponent<Player>();
 
             if (FlowedPlayerInfo.Flowed == false)
             {

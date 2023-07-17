@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Flow_Condition : MonoBehaviour
 {
-    private string ParentTag;
-
     private Collider2D Flow;
     private ContactFilter2D PlayerFilter;
     private LayerMask PlayerLayer = 8;
@@ -19,7 +17,6 @@ public class Flow_Condition : MonoBehaviour
     void Awake()
     {
         Flow = GetComponent<Collider2D>();
-        StartCoroutine("TagSetting");
         PlayerFilter.SetLayerMask(PlayerLayer);
     }
 
@@ -27,12 +24,6 @@ public class Flow_Condition : MonoBehaviour
     void Update()
     {
         OverlapPlayer();
-    }
-
-    IEnumerator TagSetting()
-    {
-        yield return new WaitForSeconds(0.01f);
-        ParentTag = transform.parent.tag;
     }
 
     private void OverlapPlayer()
