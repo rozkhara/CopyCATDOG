@@ -9,7 +9,6 @@ public class Player1 : MonoBehaviour
     public int CurrentBombs = 0;
     public float PlayerSpeed;
     private Player PlayerInfo;
-    public int BombExplosionRange = 5;
 
     // This script inherits properties from the MainScript
 

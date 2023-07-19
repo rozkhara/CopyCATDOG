@@ -10,7 +10,7 @@ public class WaterBomb_Execute : MonoBehaviour
 {
     private Vector2 WBpos;
 
-    public float FlowLength = 10f;
+    public float FlowLength;
 
     private RaycastHit2D HitR;
     private RaycastHit2D HitL;
@@ -54,15 +54,15 @@ public class WaterBomb_Execute : MonoBehaviour
     
     void FlowSetting()
     {
-        FlowR = FlowLength;
-        FlowL = FlowLength;
-        FlowU = FlowLength;
-        FlowD = FlowLength;
+        FlowR = FlowLength * 0.7f;
+        FlowL = FlowLength * 0.7f;
+        FlowU = FlowLength * 0.7f;
+        FlowD = FlowLength * 0.7f;
 
-        HitR = Physics2D.Raycast(WBpos, new Vector2(1, 0), FlowLength, 256);
-        HitL = Physics2D.Raycast(WBpos, new Vector2(-1, 0), FlowLength, 256);
-        HitU = Physics2D.Raycast(WBpos, new Vector2(0, 1), FlowLength, 256);
-        HitD = Physics2D.Raycast(WBpos, new Vector2(0, -1), FlowLength, 256);
+        HitR = Physics2D.Raycast(WBpos, new Vector2(1, 0), FlowLength * 0.7f, 256);
+        HitL = Physics2D.Raycast(WBpos, new Vector2(-1, 0), FlowLength * 0.7f, 256);
+        HitU = Physics2D.Raycast(WBpos, new Vector2(0, 1), FlowLength * 0.7f, 256);
+        HitD = Physics2D.Raycast(WBpos, new Vector2(0, -1), FlowLength * 0.7f, 256);
 
         if (HitR == true)
             FlowR = HitR.distance;
@@ -97,10 +97,10 @@ public class WaterBomb_Execute : MonoBehaviour
     {
         List<Collider2D> HitPlayer = new List<Collider2D>();
 
-        RaycastHit2D[] HitinfoR = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(1, 0), FlowR, 8);
-        RaycastHit2D[] HitinfoL = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(-1, 0), FlowL, 8);
-        RaycastHit2D[] HitinfoU = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(0, 1), FlowU, 8);
-        RaycastHit2D[] HitinfoD = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(0, -1), FlowD, 8);
+        RaycastHit2D[] HitinfoR = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, new Vector2(1, 0), FlowR, 8);
+        RaycastHit2D[] HitinfoL = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, new Vector2(-1, 0), FlowL, 8);
+        RaycastHit2D[] HitinfoU = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, new Vector2(0, 1), FlowU, 8);
+        RaycastHit2D[] HitinfoD = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, new Vector2(0, -1), FlowD, 8); 
 
         foreach (RaycastHit2D player in HitinfoR)
             HitPlayer.Add(player.collider);
@@ -116,10 +116,7 @@ public class WaterBomb_Execute : MonoBehaviour
             Player FlowedPlayerInfo = HitPlayer[i].GetComponent<Player>();
 
             if (FlowedPlayerInfo.Flowed == false)
-            {
-                FlowedPlayerInfo.Velocity = 1;
                 FlowedPlayerInfo.Flowed = true;
-            }
         }
     }
 }

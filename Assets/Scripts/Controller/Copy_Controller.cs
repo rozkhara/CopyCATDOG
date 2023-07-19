@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Copy_Controller : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class Copy_Controller : MonoBehaviour
     public GameObject MG;
     private MapGenerator mapGeneratorScript;
 
+    GameObject player1;
+    GameObject player2;
+
     private void Start()
     {
         SpawnPlayers();
@@ -31,12 +35,13 @@ public class Copy_Controller : MonoBehaviour
     private void Update()
     {
         HandleBombSpawn();
+        UseNeedle();
     }
 
     private void SpawnPlayers()
     {
-        GameObject player1 = Instantiate(player1Prefab, new Vector3(-7f, -4.3f, 0f), Quaternion.identity);
-        GameObject player2 = Instantiate(player2Prefab, new Vector3(3f, 4.4f, 0f), Quaternion.identity);
+        player1 = Instantiate(player1Prefab, new Vector3(-7f, -4.3f, 0f), Quaternion.identity);
+        player2 = Instantiate(player2Prefab, new Vector3(3f, 4.4f, 0f), Quaternion.identity);
 
         player1Script = player1.GetComponent<Player1>();
         player2Script = player2.GetComponent<Player2>();
@@ -81,7 +86,7 @@ public class Copy_Controller : MonoBehaviour
 
     private void HandleBombSpawn()
     {
-        if (Input.GetButtonDown("Player1Bomb") && player1Script.CurrentBombs < player1Script.maxBomb)
+        if (Input.GetButtonDown("Player1Bomb") && player1Script.CurrentBombs < player1Script.maxBomb && !player1.GetComponent<Player>().Flowed)
         {
             if (CanPlaceBomb(player1Script.transform.position))
             {
@@ -94,7 +99,7 @@ public class Copy_Controller : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Player2Bomb") && player2Script.CurrentBombs < player2Script.maxBomb)
+        if (Input.GetButtonDown("Player2Bomb") && player2Script.CurrentBombs < player2Script.maxBomb && !player2.GetComponent<Player>().Flowed)
         {
             if (CanPlaceBomb(player2Script.transform.position))
             {
@@ -127,6 +132,7 @@ public class Copy_Controller : MonoBehaviour
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
+        bomb.GetComponent<WaterBomb_Execute>().FlowLength = 5f;
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         FindAndTransformObject(bomb);
         bombCollider.isTrigger = true;
@@ -140,6 +146,7 @@ public class Copy_Controller : MonoBehaviour
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
+        bomb.GetComponent<WaterBomb_Execute>().FlowLength = 3f;
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         FindAndTransformObject(bomb);
         bombCollider.isTrigger = true;
@@ -199,7 +206,22 @@ public class Copy_Controller : MonoBehaviour
                 nearestObject = otherObject;
             }
         }*/
+    }
 
+    private void UseNeedle()
+    {
+        if (Input.GetButtonDown("Player1Needle") && player1.GetComponent<Player>().needle > 0)
+        {
+            player1.GetComponent<Player>().Flowed = false;
+            player1.GetComponent<Player>().Flowed_Flag = false;
+            player1.GetComponent<Player>().needle--;
+        }
 
+        if (Input.GetButtonDown("Player2Needle") && player2.GetComponent<Player>().needle > 0)
+        {
+            player2.GetComponent<Player>().Flowed = false;
+            player2.GetComponent<Player>().Flowed_Flag = false;
+            player2.GetComponent<Player>().needle--;
+        }
     }
 }

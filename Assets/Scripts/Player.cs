@@ -9,8 +9,12 @@ public class Player : MonoBehaviour
 {
     public bool Flowed = false;
     public GameObject Flow_Condition;
-    public int FlowLength = 10;
     public float Velocity = 5f;
+    private GameObject FlowBack;
+
+    public bool Flowed_Flag = false;
+    public int needle = 2;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -22,13 +26,23 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            if (Flowed == true)
+            if (Flowed)
             {
-                float PlayerX = transform.position.x;
-                float PlayerY = transform.position.y;
-                Vector2 PlayerPos = new Vector2(PlayerX, PlayerY);
-                Instantiate(Flow_Condition, PlayerPos, transform.rotation).transform.parent = this.transform;
-                yield break;
+                if (!Flowed_Flag)
+                {
+                    float PlayerX = transform.position.x;
+                    float PlayerY = transform.position.y;
+                    Vector2 PlayerPos = new Vector2(PlayerX, PlayerY);
+                    FlowBack = Instantiate(Flow_Condition, PlayerPos, transform.rotation);
+                    FlowBack.transform.parent = this.transform;
+                    Flowed_Flag = true;
+                }
+                Velocity = 1f;
+            }
+            else
+            {
+                Destroy(FlowBack);
+                Velocity = 5f;
             }
             yield return null;
         }

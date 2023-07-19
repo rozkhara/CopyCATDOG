@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Controller : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class Controller : MonoBehaviour
     public Player2 player2Script;
     private Vector3 player1InitialPos;
     private Vector3 player2InitialPos;
+
+    private GameObject player1;
+    private GameObject player2;
 
     private void Start()
     {
@@ -27,12 +31,13 @@ public class Controller : MonoBehaviour
     private void Update()
     {
         HandleBombSpawn();
+        UseNeedle();
     }
 
     private void SpawnPlayers()
     {
-        GameObject player1 = Instantiate(player1Prefab, new Vector3(-5f, 0f, 0f), Quaternion.identity);
-        GameObject player2 = Instantiate(player2Prefab, new Vector3(5f, 0f, 0f), Quaternion.identity);
+        player1 = Instantiate(player1Prefab, new Vector3(-5f, 0f, 0f), Quaternion.identity);
+        player2 = Instantiate(player2Prefab, new Vector3(5f, 0f, 0f), Quaternion.identity);
 
         player1Script = player1.GetComponent<Player1>();
         player2Script = player2.GetComponent<Player2>();
@@ -124,8 +129,9 @@ public class Controller : MonoBehaviour
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
+        bomb.GetComponent<WaterBomb_Execute>().FlowLength = 3f;
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        bombCollider.isTrigger = true;  
+        bombCollider.isTrigger = true;
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
         bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
@@ -136,10 +142,28 @@ public class Controller : MonoBehaviour
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
+        bomb.GetComponent<WaterBomb_Execute>().FlowLength = 3f;
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         bombCollider.isTrigger = true;  
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
         bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
+    }
+
+    private void UseNeedle()
+    {
+        if (Input.GetButtonDown("Player1Needle"))
+        {
+            Debug.Log("1");
+            player1.GetComponent<Player>().Flowed = false;
+            player1.GetComponent<Player>().Flowed_Flag = false;
+        }
+
+        if (Input.GetButtonDown("Player2Needle"))
+        {
+            Debug.Log("1");
+            player2.GetComponent<Player>().Flowed = false;
+            player2.GetComponent<Player>().Flowed_Flag = false;
+        }
     }
 }
