@@ -14,25 +14,38 @@ public class Controller : MonoBehaviour
     private Vector3 player1InitialPos;
     private Vector3 player2InitialPos;
 
+    public GameObject MG;
+    private MapGenerator mapGeneratorScript;
+
+    private float timer = 0;
+    private int delayTime = 3;
+
     private void Start()
     {
         SpawnPlayers();
+        mapGeneratorScript = MG.GetComponent<MapGenerator>();
     }
-
     private void FixedUpdate()
     {
-        HandlePlayerMovement();
+        if (timer > delayTime)
+        {
+            HandlePlayerMovement();
+        }
     }
 
     private void Update()
     {
-        HandleBombSpawn();
+        timer += Time.deltaTime;
+        if (timer > delayTime)
+        {
+           HandleBombSpawn();
+        }
     }
 
     private void SpawnPlayers()
     {
-        GameObject player1 = Instantiate(player1Prefab, new Vector3(-5f, 0f, 0f), Quaternion.identity);
-        GameObject player2 = Instantiate(player2Prefab, new Vector3(5f, 0f, 0f), Quaternion.identity);
+        GameObject player1 = Instantiate(player1Prefab, new Vector3(-7f, -4.3f, 0f), Quaternion.identity);
+        GameObject player2 = Instantiate(player2Prefab, new Vector3(2.8f, 4.1f, 0f), Quaternion.identity);
 
         player1Script = player1.GetComponent<Player1>();
         player2Script = player2.GetComponent<Player2>();
@@ -55,7 +68,7 @@ public class Controller : MonoBehaviour
             player1Movement.x = 0f;
         }
 
-        player1Script.transform.Translate(player1Movement * player1Script.PlayerSpeed * Time.fixedDeltaTime);
+        player1Script.transform.Translate(player1Movement * player1Script.PlayerSpeed * Time.deltaTime);
 
         // Player 2 movement
         float player2MoveX = Input.GetAxisRaw("Player2Horizontal");
@@ -103,7 +116,6 @@ public class Controller : MonoBehaviour
             }
         }
     }
-
     private bool CanPlaceBomb(Vector3 bombPosition)
     {
         // Check if there is already a bomb at the target position
@@ -125,7 +137,8 @@ public class Controller : MonoBehaviour
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        bombCollider.isTrigger = true;  
+        FindAndTransformObject(bomb);
+        bombCollider.isTrigger = true;
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
         bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
@@ -137,9 +150,65 @@ public class Controller : MonoBehaviour
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        bombCollider.isTrigger = true;  
+        FindAndTransformObject(bomb);
+        bombCollider.isTrigger = true;
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
         bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
+    }
+
+
+    /*private void Snapping(GameObject targetObject)
+    {
+        mapGeneratorScript = targetObject.GetComponent<MapGenerator>();
+        if (mapGeneratorScript != null)
+        {
+            Debug.Log("GetComponent targetObj is completed.");
+            mapGeneratorScript.FindAndTransformObject(targetObject);
+            Debug.Log("Snapping is completed.");
+        }
+        else
+        {
+            Debug.Log("GetComponent targetobj is failed.");
+        }
+
+    }*/
+
+    private void FindAndTransformObject(GameObject targetObject)
+    {
+        Vector2 targetPosition = targetObject.transform.position;
+        Transform nearestObject = null;
+
+        float shortestDistance = Mathf.Infinity;
+        if (mapGeneratorScript != null)
+        {
+            for (int y = 0; y < mapGeneratorScript.mapTiles.Count; y++)
+            {
+                Transform tilePosition = mapGeneratorScript.mapTiles[y].transform;
+                float distance = Vector2.Distance(targetPosition, tilePosition.position);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    nearestObject = tilePosition;
+                }
+            }
+            if (nearestObject != null)
+            {
+                targetObject.transform.position = nearestObject.position;
+            }
+        }
+
+
+        /*foreach (Transform otherObject in otherObjects)
+        {
+            float distance = Vector2.Distance(targetPosition, otherObject.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearestObject = otherObject;
+            }
+        }*/
+
+
     }
 }

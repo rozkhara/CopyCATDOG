@@ -15,8 +15,6 @@ public class MapGenerator : MonoBehaviour
 
     public List<GameObject> mapTiles = new List<GameObject>();
 
-    //public GameObject targetObject;
-
     private void Start()
     {
         generateMap();
@@ -24,12 +22,7 @@ public class MapGenerator : MonoBehaviour
 
     private void Update()
     {
-        //targetObject = GameObject.Find("Copy_WaterBomb(Clone)");
-        //Controller script로 이동
-        /* if (targetObject != null)
-         {
-             FindAndTransformObject();
-         }*/
+       
     }
 
     private void generateMap()
@@ -38,13 +31,12 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                GameObject newTile = Instantiate(MapTile) as GameObject;
+                GameObject newTile = Instantiate(MapTile);
 
                 mapTiles.Add(newTile);
                 newTile.transform.SetParent(MapGrid.transform, false);
                 newTile.transform.localPosition = new Vector3(x * 0.7f, y * 0.7f, 0);
                 newTile.name = "MapTile" + (x + 1) + " " + (y + 1);
-                //newTile.transform.position = new Vector3(x * 0.7f - 7.0f, y * 0.7f - 4.3f, 0);
             }
         }
         Debug.Log("Tile number:  " + mapTiles.Count);
@@ -79,10 +71,6 @@ public class MapGenerator : MonoBehaviour
             }
         }*//*
 
-        if (nearestObject != null)
-        {
-            targetObject.transform.position = nearestObject.position;
-        }
     }*/
 
 
