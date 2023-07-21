@@ -153,13 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55641e56db7431243b34fbc01c95db09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Prefab: {fileID: 2529393963659807983, guid: c84c84af6c577ea45aac09b5c49526e4, type: 3}
-  player2Prefab: {fileID: 7759527791707479610, guid: aa2606d44e0759a48957229bc06ab293, type: 3}
-  bombPrefab: {fileID: 3776161966141699999, guid: 8f34684c530ae2f49a9aa8ee327d0aca, type: 3}
-  WaterBomb: {fileID: 4173987505576844063, guid: 312cc4f2b1494d6439ad2fe843a8fd01, type: 3}
-  player1Script: {fileID: 0}
-  player2Script: {fileID: 0}
-  MG: {fileID: 626753631}
 --- !u!114 &425822609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,17 +160,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425822607}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4573fbf9674588b41b85d8d2aaea3136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Prefab: {fileID: 2529393963659807983, guid: e657773b207c89b439e609d0172e2d1e, type: 3}
-  player2Prefab: {fileID: 7759527791707479610, guid: 2f87e4a179dceb240bdc4a7983a59c38, type: 3}
-  bombPrefab: {fileID: 3776161966141699999, guid: 82bdeff3f82efe046b85414c88e51269, type: 3}
-  WaterBomb: {fileID: 0}
-  player1Script: {fileID: 0}
-  player2Script: {fileID: 0}
+  Player1Prefab: {fileID: 2529393963659807983, guid: c84c84af6c577ea45aac09b5c49526e4, type: 3}
+  Player2Prefab: {fileID: 7759527791707479610, guid: aa2606d44e0759a48957229bc06ab293, type: 3}
+  WaterBomb: {fileID: 4173987505576844063, guid: 5dea31d144b818e4b88fdbcb306ce290, type: 3}
+  WaterBomb_Execute: {fileID: 0}
 --- !u!4 &425822610
 Transform:
   m_ObjectHideFlags: 0

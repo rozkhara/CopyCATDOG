@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4432772613476873713}
   - component: {fileID: 6077204026299174941}
   - component: {fileID: 5889000856559075971}
-  - component: {fileID: 8298285154158885972}
-  - component: {fileID: -4461477001876028444}
+  - component: {fileID: 9201613434904424400}
+  - component: {fileID: 456506605240527040}
   m_Layer: 3
   m_Name: Player1
   m_TagString: Player1
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2529393963659807983}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.45, y: -0.22, z: 0}
-  m_LocalScale: {x: 1, y: 1.52, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.08515483, g: 0.8679245, b: 0.22092809, a: 1}
   m_FlipX: 0
@@ -160,24 +160,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8298285154158885972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2529393963659807983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3264adfa0d220eb4583bc7ba11ac8b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxBomb: 3
-  CurrentBombs: 0
-  PlayerSpeed: 0
-  PlayerInfo: {fileID: 0}
-  BombExplosionRange: 5
---- !u!114 &-4461477001876028444
+--- !u!114 &9201613434904424400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,3 +176,18 @@ MonoBehaviour:
   Flow_Condition: {fileID: 4722547937941086577, guid: 984397b3f7e8fb94580f9eddc4d806d1, type: 3}
   FlowLength: 10
   Velocity: 5
+--- !u!114 &456506605240527040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2529393963659807983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3264adfa0d220eb4583bc7ba11ac8b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player1Prefab: {fileID: 0}
+  Player2Prefab: {fileID: 0}
+  WaterBomb: {fileID: 4173987505576844063, guid: 5dea31d144b818e4b88fdbcb306ce290, type: 3}

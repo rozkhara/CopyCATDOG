@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -165,7 +165,8 @@ public class Copy_Controller : MonoBehaviour
 
     }*/
 
-    private void FindAndTransformObject(GameObject targetObject)
+    //The function belown is commented not used
+    /*private void FindAndTransformObject(GameObject targetObject)
     {
         Vector2 targetPosition = targetObject.transform.position;
         Transform nearestObject = null;
@@ -200,6 +201,6 @@ public class Copy_Controller : MonoBehaviour
             }
         }*/
 
-
+/*
     }
-}
+}*/

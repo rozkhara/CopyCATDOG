@@ -1,33 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Player1 : MonoBehaviour
+public class Player1 : Controller
 {
-    public int maxBomb = 3;
-    public int CurrentBombs = 0;
-    public float PlayerSpeed;
-    private Player PlayerInfo;
-    public int BombExplosionRange = 5;
+    // This script inherits properties from the Controller script
 
-    // This script inherits properties from the MainScript
-
-    void Start()
+    private void Start()
     {
-        PlayerInfo = transform.GetComponent<Player>();
+        PlayerSpeed = 5.0f;
+        MaxBomb = 4;
     }
 
-    void Update()
+    private void Update()
     {
-        PlayerSpeed = PlayerInfo.Velocity;
+        HandleBombSpawn();
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected override void HandleBombSpawn()
     {
-        if (collision.gameObject.CompareTag("Bomb"))
+        if (Input.GetButtonDown("Player1Bomb") && CurrentBombs < MaxBomb)
         {
-            Debug.Log("Player 1 collided with a bomb.");
+            base.HandleBombSpawn();
         }
     }
+
 }
