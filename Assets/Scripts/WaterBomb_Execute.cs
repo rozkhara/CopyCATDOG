@@ -1,124 +1,147 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.PlasticSCM.Editor.WebApi;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
 
 public class WaterBomb_Execute : MonoBehaviour
 {
     private Vector2 WBpos;
 
-    public float FlowLength = 10f;
+    public float FlowLength;
+    private float FlowLengthWithBlockSize;
 
-    private RaycastHit2D HitR;
-    private RaycastHit2D HitL;
-    private RaycastHit2D HitU;
-    private RaycastHit2D HitD;
+    private LayerMask PlayerLayer = 1 << 3;
+    private LayerMask BlockLayer = 1 << 8;
+    private LayerMask ItemLayer = 1 << 9;
 
-    private float FlowR;
-    private float FlowL;
-    private float FlowU;
-    private float FlowD;
+    private Vector2[] direction = new Vector2[] { Vector2.right, Vector2.left, Vector2.up, Vector2.down };
+    private float[] FlowAll;
 
-    // Start is called before the first frame update
+    public GameObject ItemPrefab;
+    private float[] ItemPercent = new float[] { 10, 20, 30, 70 };
 
-    void Start()
+    public GameObject Flow_Condition;
+    private GameObject FlowBackground;
+
+    private void Start()
     {
-        StartCoroutine("WBExceed");
+        StartCoroutine(WBExceed());
     }
 
-    IEnumerator WBExceed()
+    private IEnumerator WBExceed()
     {
-        StartCoroutine("GetWBPos");
+        StartCoroutine(GetWBPos());
         yield return new WaitForSeconds(3f);
-        StartCoroutine("WBBurst");
+        StartCoroutine(WBBurst());
     }
 
-    IEnumerator GetWBPos()
+    private IEnumerator GetWBPos()
     {
         yield return new WaitForSeconds(0.3f);
         WBpos = new Vector2(transform.position.x, transform.position.y);
+        FlowLengthWithBlockSize = FlowLength * 0.7f;
         yield break;
     }
 
-    IEnumerator WBBurst()
+    private IEnumerator WBBurst()
     {
         FlowSetting();
-        WBBurstBlock();
         WBBurstPlayer();
         Destroy(gameObject);
         yield break;
     }
-    
-    void FlowSetting()
+
+    private void FlowSetting()
     {
-        FlowR = FlowLength;
-        FlowL = FlowLength;
-        FlowU = FlowLength;
-        FlowD = FlowLength;
+        FlowAll = new float[4];
 
-        HitR = Physics2D.Raycast(WBpos, new Vector2(1, 0), FlowLength, 256);
-        HitL = Physics2D.Raycast(WBpos, new Vector2(-1, 0), FlowLength, 256);
-        HitU = Physics2D.Raycast(WBpos, new Vector2(0, 1), FlowLength, 256);
-        HitD = Physics2D.Raycast(WBpos, new Vector2(0, -1), FlowLength, 256);
-
-        if (HitR == true)
-            FlowR = HitR.distance;
-        if (HitL == true)
-            FlowL = HitL.distance;
-        if (HitU == true)
-            FlowU = HitU.distance;
-        if (HitD == true)
-            FlowD = HitD.distance;
+        for (int i = 0; i < 4; i++)
+        {
+            WBBurstBlockandItem(direction[i], ref FlowAll[i]);
+        }
     }
 
-    void WBBurstBlock()
+
+    private void WBBurstBlockandItem(Vector2 direction, ref float Flow)
     {
-        if (HitR == true)
-            if (HitR.collider.gameObject.CompareTag("CanDestroy"))
-                Destroy(HitR.collider.gameObject);
+        RaycastHit2D isHit = Physics2D.Raycast(WBpos, direction, FlowLengthWithBlockSize, BlockLayer);
 
-        if (HitL == true)
-            if (HitL.collider.gameObject.CompareTag("CanDestroy"))
-                Destroy(HitL.collider.gameObject);
+        if (isHit == true)
+        {
+            Flow = isHit.distance;
+            BurstItem(Flow, direction);
 
-        if (HitU == true)
-            if (HitU.collider.gameObject.CompareTag("CanDestroy"))
-                Destroy(HitU.collider.gameObject);
+            if (isHit.collider.gameObject.CompareTag("CanDestroy"))
+            {
+                Destroy(isHit.collider.gameObject);
 
-        if (HitD == true)
-            if (HitD.collider.gameObject.CompareTag("CanDestroy"))
-                Destroy(HitD.collider.gameObject);
+                float RandomPoint = Random.value * 100;
+
+                for (int i = 0; i < ItemPercent.Length; i++)
+                {
+                    if (RandomPoint < ItemPercent[i])
+                    {
+                        DropItem(isHit.collider.transform.position, i);
+                    }
+                    else
+                        RandomPoint -= ItemPercent[i];
+                }
+            }
+        }
+        else
+        {
+            Flow = FlowLengthWithBlockSize;
+            BurstItem(Flow, direction);
+        }
     }
 
-    void WBBurstPlayer()
+    private void BurstItem(float Flow, Vector2 direction)
     {
-        List<Collider2D> HitPlayer = new List<Collider2D>();
 
-        RaycastHit2D[] HitinfoR = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(1, 0), FlowR, 8);
-        RaycastHit2D[] HitinfoL = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(-1, 0), FlowL, 8);
-        RaycastHit2D[] HitinfoU = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(0, 1), FlowU, 8);
-        RaycastHit2D[] HitinfoD = Physics2D.CircleCastAll(WBpos, 0.3f, new Vector2(0, -1), FlowD, 8);
+        RaycastHit2D[] ItemHit = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction, Flow, ItemLayer);
+
+        foreach (RaycastHit2D Item in ItemHit)
+            Destroy(Item.collider.gameObject);
+
+    }
+    private void DropItem(Vector2 BlockPosition, int ItemNumber)
+    {
+        if (ItemNumber == 2)
+            Instantiate(ItemPrefab, BlockPosition, Quaternion.identity);
+    }
+    private void WBBurstPlayer()
+    {
+        List<Collider2D> PlayerHit = new();
+
+        RaycastHit2D[] HitinfoR = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction[0], FlowAll[0], PlayerLayer);
+        RaycastHit2D[] HitinfoL = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction[1], FlowAll[1], PlayerLayer);
+        RaycastHit2D[] HitinfoU = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction[2], FlowAll[2], PlayerLayer);
+        RaycastHit2D[] HitinfoD = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction[3], FlowAll[3], PlayerLayer);
 
         foreach (RaycastHit2D player in HitinfoR)
-            HitPlayer.Add(player.collider);
+            PlayerHit.Add(player.collider);
         foreach (RaycastHit2D player in HitinfoL)
-            HitPlayer.Add(player.collider);
+            PlayerHit.Add(player.collider);
         foreach (RaycastHit2D player in HitinfoU)
-            HitPlayer.Add(player.collider);
+            PlayerHit.Add(player.collider);
         foreach (RaycastHit2D player in HitinfoD)
-            HitPlayer.Add(player.collider);
+            PlayerHit.Add(player.collider);
 
-        for (int i = 0; i < HitPlayer.Count; i++)
+        for (int i = 0; i < PlayerHit.Count; i++)
         {
-            Player FlowedPlayerInfo = HitPlayer[i].GetComponent<Player>();
+            Player FlowedPlayerInfo = PlayerHit[i].GetComponent<Player>();
 
-            if (FlowedPlayerInfo.Flowed == false)
+            if (FlowedPlayerInfo.Flowed != true)
             {
-                FlowedPlayerInfo.Velocity = 1;
                 FlowedPlayerInfo.Flowed = true;
+
+                float PlayerX = FlowedPlayerInfo.transform.position.x;
+                float PlayerY = FlowedPlayerInfo.transform.position.y;
+                Vector2 PlayerPos = new Vector2(PlayerX, PlayerY);
+
+                FlowBackground = Instantiate(Flow_Condition, PlayerPos, transform.rotation);
+                FlowBackground.transform.parent = PlayerHit[i].transform;
+
+                FlowedPlayerInfo.Velocity = 1f;
             }
         }
     }

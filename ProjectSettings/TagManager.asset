@@ -7,6 +7,7 @@ TagManager:
   - Bomb
   - Player1
   - Player2
+  - CanDestroy
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - WaterBomb
   - Player
   - Block
-  - 
+  - Item
   - 
   - 
   - 
