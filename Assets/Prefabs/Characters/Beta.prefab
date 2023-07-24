@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5138075633266873591}
   - component: {fileID: 1302140811039665604}
   - component: {fileID: 6560591471359813977}
-  - component: {fileID: -5245341719781808415}
-  - component: {fileID: -6592956566648024870}
+  - component: {fileID: 4424983950169061041}
+  - component: {fileID: 3261576924954759233}
   - component: {fileID: 631814624940599476}
   m_Layer: 3
   m_Name: Beta
@@ -161,7 +161,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-5245341719781808415
+--- !u!114 &4424983950169061041
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,11 +170,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7759527791707479610}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3264adfa0d220eb4583bc7ba11ac8b71, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bdd63af6722af841884bde39e6c2b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaterBomb: {fileID: 0}
---- !u!114 &-6592956566648024870
+  WaterBomb: {fileID: 4173987505576844063, guid: 5dea31d144b818e4b88fdbcb306ce290, type: 3}
+--- !u!114 &3261576924954759233
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7759527791707479610}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88b51375ab758fc4f91ccc2b5171a8b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fc3d74dd5e36ad44972e1ba2e6459e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WaterBomb: {fileID: 4173987505576844063, guid: 5dea31d144b818e4b88fdbcb306ce290, type: 3}
@@ -200,6 +200,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Flowed: 0
-  Flow_Condition: {fileID: 4722547937941086577, guid: 984397b3f7e8fb94580f9eddc4d806d1, type: 3}
-  FlowLength: 10
   Velocity: 5
+  needle: 2

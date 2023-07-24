@@ -146,6 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FlowLength: 10
+  ItemPrefab: {fileID: 9020121623503461080, guid: 39c404fc584f0404cae751c808ef5052, type: 3}
+  Flow_Condition: {fileID: 4722547937941086577, guid: 984397b3f7e8fb94580f9eddc4d806d1, type: 3}
 --- !u!114 &-6083642786391462167
 MonoBehaviour:
   m_ObjectHideFlags: 0

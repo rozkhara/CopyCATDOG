@@ -2,29 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player2 : MonoBehaviour
+public class Player2 : Controller
 {
-    public int maxBomb = 5;
-    public int CurrentBombs = 0;
-    public float PlayerSpeed;
-    private Player PlayerInfo;
+    // This script inherits properties from the Controller script
 
-    // This script inherits properties from the MainScript
-    void Start()
+
+    private void Update()
     {
-        PlayerInfo = transform.GetComponent<Player>();
+        HandleBombSpawn();
+        UseNeedle();
     }
 
-    void Update()
+    protected override void HandlePlayerMovement()
     {
-        PlayerSpeed = PlayerInfo.Velocity;
+        float MoveX = Input.GetAxisRaw("Player2Horizontal");
+        float MoveY = Input.GetAxisRaw("Player2Vertical");
+        Move(MoveX, MoveY);
+        //Debug.Log($"Player2 - Speed: {PlayerSpeed}, Range: {PlayerRange}, MaxBomb: {MaxBomb}, ExplosionRange: {BombExplosionRange}");
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected override void HandleBombSpawn()
     {
-        if (collision.gameObject.CompareTag("Bomb"))
+        if (Input.GetButtonDown("Player2Bomb") && CurrentBombs < MaxBomb && !this.Flowed)
         {
-            Debug.Log("Player 2 collided with a bomb.");
+            base.HandleBombSpawn();
         }
+    }
+
+    protected override void UseNeedle()
+    {
+        if (Input.GetButtonDown("Player2Needle") && this.Needle > 0 && this.Flowed)
+        {
+            base.UseNeedle();
+        }
+            
     }
 }
