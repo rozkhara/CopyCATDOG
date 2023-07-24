@@ -15,7 +15,6 @@ public class Controller : MonoBehaviour
     private Vector3 player2InitialPos;
 
     public GameObject MG;
-    private MapGenerator mapGeneratorScript;
 
     private float timer = 0;
     private int delayTime = 3;
@@ -23,7 +22,6 @@ public class Controller : MonoBehaviour
     private void Start()
     {
         SpawnPlayers();
-        mapGeneratorScript = MG.GetComponent<MapGenerator>();
     }
     private void FixedUpdate()
     {
@@ -38,7 +36,7 @@ public class Controller : MonoBehaviour
         timer += Time.deltaTime;
         if (timer > delayTime)
         {
-           HandleBombSpawn();
+            HandleBombSpawn();
         }
     }
 
@@ -137,7 +135,7 @@ public class Controller : MonoBehaviour
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        FindAndTransformObject(bomb);
+        SnapBomb(bomb);
         bombCollider.isTrigger = true;
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
@@ -150,65 +148,23 @@ public class Controller : MonoBehaviour
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        FindAndTransformObject(bomb);
+        SnapBomb(bomb);
         bombCollider.isTrigger = true;
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
         bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
     }
 
-
-    /*private void Snapping(GameObject targetObject)
+    public Vector2 FindWBSpawnPoint(GameObject targetObject)
     {
-        mapGeneratorScript = targetObject.GetComponent<MapGenerator>();
-        if (mapGeneratorScript != null)
-        {
-            Debug.Log("GetComponent targetObj is completed.");
-            mapGeneratorScript.FindAndTransformObject(targetObject);
-            Debug.Log("Snapping is completed.");
-        }
-        else
-        {
-            Debug.Log("GetComponent targetobj is failed.");
-        }
+        int xIndex = (int)Mathf.Round((float)(targetObject.transform.position.x + 7f) / 0.7f);
+        int yIndex = (int)Mathf.Round((float)(targetObject.transform.position.y + 4.3f) / 0.7f);
+        return new Vector2(xIndex * 0.7f - 7f, yIndex * 0.7f - 4.3f);
+    }
 
-    }*/
-
-    private void FindAndTransformObject(GameObject targetObject)
+    private void SnapBomb(GameObject targetObject)
     {
-        Vector2 targetPosition = targetObject.transform.position;
-        Transform nearestObject = null;
-
-        float shortestDistance = Mathf.Infinity;
-        if (mapGeneratorScript != null)
-        {
-            for (int y = 0; y < mapGeneratorScript.mapTiles.Count; y++)
-            {
-                Transform tilePosition = mapGeneratorScript.mapTiles[y].transform;
-                float distance = Vector2.Distance(targetPosition, tilePosition.position);
-                if (distance < shortestDistance)
-                {
-                    shortestDistance = distance;
-                    nearestObject = tilePosition;
-                }
-            }
-            if (nearestObject != null)
-            {
-                targetObject.transform.position = nearestObject.position;
-            }
-        }
-
-
-        /*foreach (Transform otherObject in otherObjects)
-        {
-            float distance = Vector2.Distance(targetPosition, otherObject.position);
-            if (distance < shortestDistance)
-            {
-                shortestDistance = distance;
-                nearestObject = otherObject;
-            }
-        }*/
-
-
+        targetObject.transform.position = FindWBSpawnPoint(targetObject);
     }
 }
+

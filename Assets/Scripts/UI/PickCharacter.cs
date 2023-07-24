@@ -20,27 +20,39 @@ public class PickCharacter : MonoBehaviour
     private bool ready1p = false;
     private bool ready2p = false;
 
-    public IEnumerator Bar1pMove(Vector3 target)
+    private bool bar1pCanMove = false;
+    private bool bar2pCanMove = false;
+
+    private Vector3 gapSize = new Vector3(7f, 0f, 0f);
+
+    private IEnumerator BarMove(int barnum, Vector3 target)
     {
-        while (Vector3.Distance(selectBar1p.transform.position, target) > 0.05f)
+        if (barnum == 1)
         {
-            selectBar1p.transform.position = Vector3.Lerp(selectBar1p.transform.position, target, 10 * Time.deltaTime);
+            while (Vector3.Distance(selectBar1p.transform.position, target) > 0.05f)
+            {
+                selectBar1p.transform.position = Vector3.Lerp(selectBar1p.transform.position, target, 10 * Time.deltaTime);
+                yield return null;
+            }
+            selectBar1p.transform.position = target;
+            bar1pCanMove = true;
             yield return null;
         }
-        selectBar1p.transform.position = target;
-        yield break;
+
+        if (barnum == 2)
+        {
+            while (Vector3.Distance(selectBar2p.transform.position, target) > 0.05f)
+            {
+                selectBar2p.transform.position = Vector3.Lerp(selectBar2p.transform.position, target, 10 * Time.deltaTime);
+                yield return null;
+            }
+            selectBar2p.transform.position = target;
+            bar2pCanMove = true;
+            yield return null;
+        }
+
     }
 
-    public IEnumerator Bar2pMove(Vector3 target)
-    {
-        while (Vector3.Distance(selectBar2p.transform.position, target) > 0.05f)
-        {
-            selectBar2p.transform.position = Vector3.Lerp(selectBar2p.transform.position, target, 10 * Time.deltaTime);
-            yield return null;
-        }
-        selectBar2p.transform.position = target;
-        yield break;
-    }
 
     private void Start()
     {
@@ -48,63 +60,64 @@ public class PickCharacter : MonoBehaviour
         current2pPos = selectBar2p.transform.position;
         next1pPos = current1pPos;
         next2pPos = current2pPos;
-        Debug.Log(current1pPos);
-        Debug.Log(current2pPos);
+        bar1pCanMove = true;
+        bar2pCanMove = true;
     }
 
 
     private void Update()
     {
-        if (!ready1p && Vector3.Distance(selectBar1p.transform.position, next1pPos) <= 0.05f)
+        if (!ready1p && bar1pCanMove)
         {
             if (current1pCharacter < 3 && Input.GetKeyDown(KeyCode.D))
             {
                 current1pPos = selectBar1p.transform.position;
-                next1pPos = current1pPos + new Vector3(7, 0, 0);
-                StartCoroutine(Bar1pMove(next1pPos));
+                next1pPos = current1pPos + gapSize;
+                bar1pCanMove = false;
+                StartCoroutine(BarMove(1, next1pPos));
                 current1pCharacter++;
-
             }
 
             if (current1pCharacter > 1 && Input.GetKeyDown(KeyCode.A))
             {
                 current1pPos = selectBar1p.transform.position;
-                next1pPos = current1pPos + new Vector3(-7, 0, 0);
-                StartCoroutine(Bar1pMove(next1pPos));
+                next1pPos = current1pPos - gapSize;
+                bar1pCanMove = false;
+                StartCoroutine(BarMove(1, next1pPos));
                 current1pCharacter--;
             }
         }
 
-        if (!ready2p && Vector3.Distance(selectBar2p.transform.position, next2pPos) <= 0.05f)
+        if (!ready2p && bar2pCanMove)
         {
             if (current2pCharacter < 3 && Input.GetKeyDown(KeyCode.RightArrow))
             {
                 current2pPos = selectBar2p.transform.position;
-                next2pPos = current2pPos + new Vector3(7, 0, 0);
-                StartCoroutine(Bar2pMove(next2pPos));
+                next2pPos = current2pPos + gapSize;
+                bar2pCanMove = false;
+                StartCoroutine(BarMove(2, next2pPos));
                 current2pCharacter++;
             }
 
             if (current2pCharacter > 1 && Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 current2pPos = selectBar2p.transform.position;
-                next2pPos = current2pPos + new Vector3(-7, 0, 0);
-                StartCoroutine(Bar2pMove(next2pPos));
+                next2pPos = current2pPos - gapSize;
+                bar2pCanMove = false;
+                StartCoroutine(BarMove(2, next2pPos));
                 current2pCharacter--;
             }
         }
     }
 
-    public void Is1pReady()
+    public void Set1pReady()
     {
         ready1p = true;
-        Debug.Log("1P ready: " + current1pCharacter + " selected.");
     }
 
-    public void Is2pReady()
+    public void Set2pReady()
     {
         ready2p = true;
-        Debug.Log("2P ready: " + current2pCharacter + " selected.");
     }
 
 }
