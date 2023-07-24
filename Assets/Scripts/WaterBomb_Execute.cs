@@ -7,7 +7,7 @@ public class WaterBomb_Execute : MonoBehaviour
     private Vector2 WBpos;
 
     public float FlowLength;
-    private float FlowLengthWithBlockSize;
+    private float FlowLengthRaw;
 
     private LayerMask PlayerLayer = 1 << 3;
     private LayerMask BlockLayer = 1 << 8;
@@ -38,7 +38,7 @@ public class WaterBomb_Execute : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         WBpos = new Vector2(transform.position.x, transform.position.y);
-        FlowLengthWithBlockSize = FlowLength * 0.7f;
+        FlowLengthRaw = FlowLength * 0.7f;
         yield break;
     }
 
@@ -63,7 +63,7 @@ public class WaterBomb_Execute : MonoBehaviour
 
     private void WBBurstBlockandItem(Vector2 direction, ref float Flow)
     {
-        RaycastHit2D isHit = Physics2D.Raycast(WBpos, direction, FlowLengthWithBlockSize, BlockLayer);
+        RaycastHit2D isHit = Physics2D.Raycast(WBpos, direction, FlowLengthRaw, BlockLayer);
 
         if (isHit == true)
         {
@@ -83,30 +83,35 @@ public class WaterBomb_Execute : MonoBehaviour
                         DropItem(isHit.collider.transform.position, i);
                     }
                     else
+                    {
                         RandomPoint -= ItemPercent[i];
+                    }
                 }
             }
         }
         else
         {
-            Flow = FlowLengthWithBlockSize;
+            Flow = FlowLengthRaw;
             BurstItem(Flow, direction);
         }
     }
 
     private void BurstItem(float Flow, Vector2 direction)
     {
-
+        //TODO: raycast로 변경
         RaycastHit2D[] ItemHit = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction, Flow, ItemLayer);
 
         foreach (RaycastHit2D Item in ItemHit)
+        {
             Destroy(Item.collider.gameObject);
-
+        }
     }
     private void DropItem(Vector2 BlockPosition, int ItemNumber)
     {
         if (ItemNumber == 2)
+        {
             Instantiate(ItemPrefab, BlockPosition, Quaternion.identity);
+        }
     }
     private void WBBurstPlayer()
     {
@@ -128,7 +133,7 @@ public class WaterBomb_Execute : MonoBehaviour
 
         for (int i = 0; i < PlayerHit.Count; i++)
         {
-            Player FlowedPlayerInfo = PlayerHit[i].GetComponent<Player>();
+            Controller FlowedPlayerInfo = PlayerHit[i].GetComponent<Controller>();
 
             if (FlowedPlayerInfo.Flowed != true)
             {
@@ -141,7 +146,7 @@ public class WaterBomb_Execute : MonoBehaviour
                 FlowBackground = Instantiate(Flow_Condition, PlayerPos, transform.rotation);
                 FlowBackground.transform.parent = PlayerHit[i].transform;
 
-                FlowedPlayerInfo.Velocity = 1f;
+                FlowedPlayerInfo.CurrentSpeed = 1;
             }
         }
     }
