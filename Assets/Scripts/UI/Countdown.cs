@@ -5,21 +5,19 @@ using UnityEngine.UI;
 
 public class Countdown : MonoBehaviour
 {
-    public float setTime = 10.0f;
+    public float playTime = 10.0f;
     private int startTime = 3;
 
     [SerializeField]
-    Text countdownText;
+    private Text countdownText;
 
+    [SerializeField]
+    private Text startCountdownText;
 
-    public Text startCountdownText;
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         StartCoroutine(CountdownToStart());
-        countdownText.text = setTime.ToString();
+        countdownText.text = playTime.ToString();
 
     }
     IEnumerator CountdownToStart()
@@ -38,16 +36,21 @@ public class Countdown : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         startCountdownText.gameObject.SetActive(false);
+        yield return null;
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        if (setTime > 0 && startTime <= 0)
-            setTime -= Time.deltaTime;
-        else if (setTime <= 0)
+        if (playTime > 0 && startTime <= 0)
+        {
+            playTime -= Time.deltaTime;
+        }
+        else if (playTime <= 0)
+        {
             Time.timeScale = 0.0f;
+        }
 
-        countdownText.text = Mathf.Round(setTime).ToString();
+        countdownText.text = Mathf.Round(playTime).ToString();
 
     }
 }

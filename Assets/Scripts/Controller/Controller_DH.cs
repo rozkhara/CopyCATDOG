@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class Controller : MonoBehaviour
+public class Controller_DH: MonoBehaviour
 {
     public GameObject player1Prefab;
     public GameObject player2Prefab;
@@ -16,35 +16,34 @@ public class Controller : MonoBehaviour
     private Vector3 player2InitialPos;
 
     public GameObject MG;
+    private MapGenerator mapGeneratorScript;
 
-    private float timer = 0;
-    private int delayTime = 3;
+    private GameObject player1;
+    private GameObject player2;
+    public float PlayerRange;
 
     private void Start()
     {
         SpawnPlayers();
+        mapGeneratorScript = MG.GetComponent<MapGenerator>();
+        PlayerRange = 5f;
+        //Debug.Log("GetComponent MapGenerator is completed.");
     }
     private void FixedUpdate()
     {
-        if (timer > delayTime)
-        {
-            HandlePlayerMovement();
-        }
+        HandlePlayerMovement();
     }
 
     private void Update()
     {
-        timer += Time.deltaTime;
-        if (timer > delayTime)
-        {
-            HandleBombSpawn();
-        }
+        HandleBombSpawn();
+        UseNeedle();
     }
 
     private void SpawnPlayers()
     {
-        GameObject player1 = Instantiate(player1Prefab, new Vector3(-7f, -4.3f, 0f), Quaternion.identity);
-        GameObject player2 = Instantiate(player2Prefab, new Vector3(2.8f, 4.1f, 0f), Quaternion.identity);
+        player1 = Instantiate(player1Prefab, new Vector3(-7f, -4.3f, 0f), Quaternion.identity);
+        player2 = Instantiate(player2Prefab, new Vector3(3f, 4.4f, 0f), Quaternion.identity);
 
         player1Script = player1.GetComponent<Player1>();
         player2Script = player2.GetComponent<Player2>();
@@ -89,7 +88,7 @@ public class Controller : MonoBehaviour
 
     private void HandleBombSpawn()
     {
-        if (Input.GetButtonDown("Player1Bomb") && player1Script.CurrentBombs < player1Script.maxBomb)
+        if (Input.GetButtonDown("Player1Bomb") && player1Script.CurrentBombs < player1Script.maxBomb && !player1.GetComponent<Player>().Flowed)
         {
             if (CanPlaceBomb(player1Script.transform.position))
             {
@@ -102,7 +101,7 @@ public class Controller : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Player2Bomb") && player2Script.CurrentBombs < player2Script.maxBomb)
+        if (Input.GetButtonDown("Player2Bomb") && player2Script.CurrentBombs < player2Script.maxBomb && !player2.GetComponent<Player>().Flowed)
         {
             if (CanPlaceBomb(player2Script.transform.position))
             {
@@ -135,9 +134,9 @@ public class Controller : MonoBehaviour
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
-        bomb.GetComponent<WaterBomb_Execute>().FlowLength = 3f;
+        bomb.GetComponent<WaterBomb_Execute>().FlowLength = PlayerRange;
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        SnapBomb(bomb);
+        FindAndTransformObject(bomb);
         bombCollider.isTrigger = true;
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
@@ -149,25 +148,87 @@ public class Controller : MonoBehaviour
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
-        bomb.GetComponent<WaterBomb_Execute>().FlowLength = 3f;
+        bomb.GetComponent<WaterBomb_Execute>().FlowLength = PlayerRange;
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
-        SnapBomb(bomb);
+        FindAndTransformObject(bomb);
         bombCollider.isTrigger = true;
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
         bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
     }
 
-    public Vector2 FindWBSpawnPoint(GameObject targetObject)
+
+    /*private void Snapping(GameObject targetObject)
     {
-        int xIndex = (int)Mathf.Round((float)(targetObject.transform.position.x + 7f) / 0.7f);
-        int yIndex = (int)Mathf.Round((float)(targetObject.transform.position.y + 4.3f) / 0.7f);
-        return new Vector2(xIndex * 0.7f - 7f, yIndex * 0.7f - 4.3f);
+        mapGeneratorScript = targetObject.GetComponent<MapGenerator>();
+        if (mapGeneratorScript != null)
+        {
+            Debug.Log("GetComponent targetObj is completed.");
+            mapGeneratorScript.FindAndTransformObject(targetObject);
+            Debug.Log("Snapping is completed.");
+        }
+        else
+        {
+            Debug.Log("GetComponent targetobj is failed.");
+        }
+
+    }*/
+
+    private void FindAndTransformObject(GameObject targetObject)
+    {
+        Vector2 targetPosition = targetObject.transform.position;
+        Transform nearestObject = null;
+
+        float shortestDistance = Mathf.Infinity;
+        if (mapGeneratorScript != null)
+        {
+            for (int y = 0; y < mapGeneratorScript.mapTiles.Count; y++)
+            {
+                Transform tilePosition = mapGeneratorScript.mapTiles[y].transform;
+                float distance = Vector2.Distance(targetPosition, tilePosition.position);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    nearestObject = tilePosition;
+                }
+            }
+            if (nearestObject != null)
+            {
+                targetObject.transform.position = nearestObject.position;
+            }
+        }
+
+
+        /*foreach (Transform otherObject in otherObjects)
+        {
+            float distance = Vector2.Distance(targetPosition, otherObject.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearestObject = otherObject;
+            }
+        }*/
     }
 
-    private void SnapBomb(GameObject targetObject)
+    private void UseNeedle()
     {
-        targetObject.transform.position = FindWBSpawnPoint(targetObject);
+        Player Player1Info = player1.GetComponent<Player>();
+        Player Player2Info = player2.GetComponent<Player>();
+
+        if (Input.GetButtonDown("Player1Needle") && Player1Info.needle > 0 && Player1Info.Flowed)
+        {
+            Player1Info.needle--;
+            Destroy(player1.transform.GetChild(0).gameObject);
+            Player1Info.Flowed = false;
+            Player1Info.Velocity = 5f;
+        }
+
+        if (Input.GetButtonDown("Player2Needle") && Player2Info.needle > 0 && Player2Info.Flowed)
+        {
+            Player2Info.needle--;
+            Destroy(player2.transform.GetChild(0).gameObject);
+            Player2Info.Flowed = false;
+            Player2Info.Velocity = 5f;
+        }
     }
 }
-

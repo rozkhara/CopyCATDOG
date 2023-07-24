@@ -9,7 +9,6 @@ public class GameSceneMove : MonoBehaviour
     public void GameScenesCtrl()
     {
         SceneManager.LoadScene("Main Map");
-        Debug.Log("Game Scenes Go");
     }
 
     
