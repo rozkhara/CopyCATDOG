@@ -6,15 +6,16 @@ public class Player1 : Controller
 {
     // This script inherits properties from the Controller script
 
-    private void Start()
-    {
-        PlayerSpeed = 5.0f;
-        MaxBomb = 4;
-    }
 
     private void Update()
     {
         HandleBombSpawn();
+    }
+
+    protected override void HandlePlayerMovement()
+    {
+        base.HandlePlayerMovement();
+        //Debug.Log($"Player2 - Speed: {PlayerSpeed}, Range: {PlayerRange}, MaxBomb: {MaxBomb}, ExplosionRange: {BombExplosionRange}");
     }
     protected override void HandleBombSpawn()
     {

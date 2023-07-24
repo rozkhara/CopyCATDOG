@@ -6,11 +6,7 @@ public class Player2 : Controller
 {
     // This script inherits properties from the Controller script
 
-    private void Start()
-    {
-        PlayerSpeed = 10.0f;
-        MaxBomb = 5;
-    }
+   
 
     private void Update()
     {
@@ -21,6 +17,7 @@ public class Player2 : Controller
         float MoveX = Input.GetAxisRaw("Player2Horizontal");
         float MoveY = Input.GetAxisRaw("Player2Vertical");
         Move(MoveX, MoveY);
+        //Debug.Log($"Player2 - Speed: {PlayerSpeed}, Range: {PlayerRange}, MaxBomb: {MaxBomb}, ExplosionRange: {BombExplosionRange}");
     }
 
     protected override void HandleBombSpawn()

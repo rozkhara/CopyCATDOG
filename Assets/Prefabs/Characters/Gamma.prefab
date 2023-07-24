@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 5138075633266873591}
   - component: {fileID: 1302140811039665604}
   - component: {fileID: 6560591471359813977}
+  - component: {fileID: -5245341719781808415}
   - component: {fileID: -6592956566648024870}
   - component: {fileID: 631814624940599476}
   m_Layer: 3
-  m_Name: Player2
+  m_Name: Gamma
   m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.15884651, g: 0.2683076, b: 0.8679245, a: 1}
+  m_Color: {r: 0.7987578, g: 0.8666667, b: 0.1607843, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -160,6 +161,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-5245341719781808415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7759527791707479610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3264adfa0d220eb4583bc7ba11ac8b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WaterBomb: {fileID: 0}
 --- !u!114 &-6592956566648024870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,8 +186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b51375ab758fc4f91ccc2b5171a8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player1Prefab: {fileID: 0}
-  Player2Prefab: {fileID: 0}
   WaterBomb: {fileID: 4173987505576844063, guid: 5dea31d144b818e4b88fdbcb306ce290, type: 3}
 --- !u!114 &631814624940599476
 MonoBehaviour:
