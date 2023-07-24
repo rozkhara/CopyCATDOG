@@ -18,13 +18,15 @@ public class Copy_Controller : MonoBehaviour
     public GameObject MG;
     private MapGenerator mapGeneratorScript;
 
-    GameObject player1;
-    GameObject player2;
+    private GameObject player1;
+    private GameObject player2;
+    public float PlayerRange;
 
     private void Start()
     {
         SpawnPlayers();
         mapGeneratorScript = MG.GetComponent<MapGenerator>();
+        PlayerRange = 5f;
         //Debug.Log("GetComponent MapGenerator is completed.");
     }
     private void FixedUpdate()
@@ -132,7 +134,7 @@ public class Copy_Controller : MonoBehaviour
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
-        bomb.GetComponent<WaterBomb_Execute>().FlowLength = 5f;
+        bomb.GetComponent<WaterBomb_Execute>().FlowLength = PlayerRange;
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         FindAndTransformObject(bomb);
         bombCollider.isTrigger = true;
@@ -146,7 +148,7 @@ public class Copy_Controller : MonoBehaviour
         player1InitialPos = player.transform.position;
         player2InitialPos = otherPlayer.transform.position;
         GameObject bomb = Instantiate(WaterBomb, player.transform.position, Quaternion.identity);
-        bomb.GetComponent<WaterBomb_Execute>().FlowLength = 3f;
+        bomb.GetComponent<WaterBomb_Execute>().FlowLength = PlayerRange;
         Collider2D bombCollider = bomb.GetComponent<Collider2D>();
         FindAndTransformObject(bomb);
         bombCollider.isTrigger = true;
@@ -210,18 +212,23 @@ public class Copy_Controller : MonoBehaviour
 
     private void UseNeedle()
     {
-        if (Input.GetButtonDown("Player1Needle") && player1.GetComponent<Player>().needle > 0)
+        Player Player1Info = player1.GetComponent<Player>();
+        Player Player2Info = player2.GetComponent<Player>();
+
+        if (Input.GetButtonDown("Player1Needle") && Player1Info.needle > 0 && Player1Info.Flowed)
         {
-            player1.GetComponent<Player>().Flowed = false;
-            player1.GetComponent<Player>().Flowed_Flag = false;
-            player1.GetComponent<Player>().needle--;
+            Player1Info.needle--;
+            Destroy(player1.transform.GetChild(0).gameObject);
+            Player1Info.Flowed = false;
+            Player1Info.Velocity = 5f;
         }
 
-        if (Input.GetButtonDown("Player2Needle") && player2.GetComponent<Player>().needle > 0)
+        if (Input.GetButtonDown("Player2Needle") && Player2Info.needle > 0 && Player2Info.Flowed)
         {
-            player2.GetComponent<Player>().Flowed = false;
-            player2.GetComponent<Player>().Flowed_Flag = false;
-            player2.GetComponent<Player>().needle--;
+            Player2Info.needle--;
+            Destroy(player2.transform.GetChild(0).gameObject);
+            Player2Info.Flowed = false;
+            Player2Info.Velocity = 5f;
         }
     }
 }

@@ -31,7 +31,6 @@ public class Controller : MonoBehaviour
     private void Update()
     {
         HandleBombSpawn();
-        UseNeedle();
     }
 
     private void SpawnPlayers()
@@ -148,22 +147,5 @@ public class Controller : MonoBehaviour
 
         bomb.GetComponent<Bomb>().EnablePlayerCollision(bombCollider, player.GetComponent<Collider2D>(), otherPlayer.GetComponent<Collider2D>(), player);
         bomb.GetComponent<Bomb>().OnBombDestroyed += () => { player.CurrentBombs--; };
-    }
-
-    private void UseNeedle()
-    {
-        if (Input.GetButtonDown("Player1Needle"))
-        {
-            Debug.Log("1");
-            player1.GetComponent<Player>().Flowed = false;
-            player1.GetComponent<Player>().Flowed_Flag = false;
-        }
-
-        if (Input.GetButtonDown("Player2Needle"))
-        {
-            Debug.Log("1");
-            player2.GetComponent<Player>().Flowed = false;
-            player2.GetComponent<Player>().Flowed_Flag = false;
-        }
     }
 }

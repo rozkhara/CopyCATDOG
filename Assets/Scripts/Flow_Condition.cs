@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Flow_Condition : MonoBehaviour
@@ -14,14 +10,14 @@ public class Flow_Condition : MonoBehaviour
     private int IsOverlap;
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         Flow = GetComponent<Collider2D>();
         PlayerFilter.SetLayerMask(PlayerLayer);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         OverlapPlayer();
     }
