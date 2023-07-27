@@ -461,6 +461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 259510898}
   - component: {fileID: 259510899}
+  - component: {fileID: 259510900}
   m_Layer: 0
   m_Name: 1pSelect
   m_TagString: Untagged
@@ -535,6 +536,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &259510900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259510897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e710ab476409f240bad155c4f04ee42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurState: 0
+  NextState: 0
+  IsRunning: 0
 --- !u!1 &286363742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,8 +1299,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1455914996}
-        m_TargetAssemblyTypeName: PickCharacter, Assembly-CSharp
+      - m_Target: {fileID: 259510900}
+        m_TargetAssemblyTypeName: select1p, Assembly-CSharp
         m_MethodName: Set1pReady
         m_Mode: 1
         m_Arguments:
@@ -1501,7 +1517,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455914992}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb6084b1e5f75d42a2ea93d9bfdec21, type: 3}
   m_Name: 
@@ -1750,6 +1766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1760003768}
   - component: {fileID: 1760003769}
+  - component: {fileID: 1760003770}
   m_Layer: 0
   m_Name: 2pSelect
   m_TagString: Untagged
@@ -1824,6 +1841,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1760003770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760003767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 120f503cdb3456b41aef9eb7efb67878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurState: 0
+  NextState: 0
+  IsRunning: 0
 --- !u!1 &1845783114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1908,8 +1940,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1455914996}
-        m_TargetAssemblyTypeName: PickCharacter, Assembly-CSharp
+      - m_Target: {fileID: 1760003770}
+        m_TargetAssemblyTypeName: select2p, Assembly-CSharp
         m_MethodName: Set2pReady
         m_Mode: 1
         m_Arguments:

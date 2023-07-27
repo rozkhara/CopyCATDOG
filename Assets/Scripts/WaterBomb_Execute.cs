@@ -22,6 +22,8 @@ public class WaterBomb_Execute : MonoBehaviour
     public GameObject Flow_Condition;
     private GameObject FlowBackground;
 
+    public GameObject airplane;
+
     private void Start()
     {
         StartCoroutine(WBExceed());
@@ -72,6 +74,7 @@ public class WaterBomb_Execute : MonoBehaviour
 
             if (isHit.collider.gameObject.CompareTag("CanDestroy"))
             {
+                airplane.GetComponent<Airplane>().MakeEmpty(isHit.collider.gameObject.transform);
                 Destroy(isHit.collider.gameObject);
 
                 float RandomPoint = Random.value * 100;
