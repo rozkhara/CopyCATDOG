@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     // Column are in this order PlayerSpeed,PlayerRange,MaxBomb,BombExplosionRange
 
     public GameObject[] PlayerPrefab;
+
     //public GameObject[] Items;
 
     public int Player1Select = 1;

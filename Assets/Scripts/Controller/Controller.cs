@@ -7,6 +7,8 @@ public class Controller : MonoBehaviour
 {
     public GameObject WaterBomb;
 
+    protected Animator PlayerAnimator;
+
     //This is the timer for bomb explosion. Now it is 3 seconds according to WaterBomb_Execute script
     protected float BombTimer = 3f; 
 
@@ -47,6 +49,11 @@ public class Controller : MonoBehaviour
         }
 
         playerMovement.Normalize();
+
+        PlayerAnimator.SetFloat("Horizontal", playerMovement.x);
+        PlayerAnimator.SetFloat("Vertical", playerMovement.y);
+        PlayerAnimator.SetFloat("Speed", playerMovement.sqrMagnitude);
+        PlayerAnimator.SetBool("Hit", Flowed);
 
         transform.Translate(CurrentSpeed * Time.deltaTime * playerMovement);
     }
@@ -119,6 +126,7 @@ public class Controller : MonoBehaviour
     {
         this.Needle--;
         Destroy(this.transform.GetChild(0).gameObject);
+        PlayerAnimator.SetTrigger("Needle");
         this.Flowed = false;
         this.CurrentSpeed = this.PlayerSpeedInit;
     }

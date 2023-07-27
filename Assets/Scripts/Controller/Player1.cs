@@ -6,6 +6,10 @@ public class Player1 : Controller
 {
     // This script inherits properties from the Controller script
 
+    private void Start()
+    {
+        PlayerAnimator = GetComponent<Animator>();        
+    }
 
     private void Update()
     {
