@@ -61,7 +61,7 @@ public class select2p : MonoBehaviour
         }
         float elapsedTime = 0f;
         Vector3 startPos = this.transform.position;
-        while (elapsedTime < 0.5f)
+        while (elapsedTime < 0.2f)
         {
             if (IsRunning > 1)
             {
