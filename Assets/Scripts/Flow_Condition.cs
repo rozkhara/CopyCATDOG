@@ -47,12 +47,16 @@ public class Flow_Condition : MonoBehaviour
     private IEnumerator MovetoEndScene()
     {
         yield return new WaitForSeconds(1.5f);
-        if(Isplayer1)
+        if (Isplayer1)
         {
+            SoundManager.Instance.StopBGMSound();
+            SoundManager.Instance.PlaySFXSound("Win", 0.5f);
             SceneManager.LoadScene("End2");
         }
         else
         {
+            SoundManager.Instance.StopBGMSound();
+            SoundManager.Instance.PlaySFXSound("Win", 0.5f);
             SceneManager.LoadScene("End1");
         }
         yield break;
