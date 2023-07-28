@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class select2p : MonoBehaviour
 {
+    public static int CurrentCharacter2p { get;  set; }
+
     public int CurState = 0;
     public int NextXState = 0;
     public int NextYState = 0;
@@ -84,6 +86,9 @@ public class select2p : MonoBehaviour
         if (ready2p)
         {
             this.GetComponent<SpriteRenderer>().color = Color.yellow;
+            CurrentCharacter2p = CurState;
+            Debug.Log("Player 2");
+            Debug.Log(CurrentCharacter2p);
         }
         else
         {

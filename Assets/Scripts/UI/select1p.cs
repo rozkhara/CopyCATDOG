@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class select1p : MonoBehaviour
 {
+    public static int CurrentCharacter1p { get; set; }
+
     public int CurState = 0;
     public int NextXState = 0;
     public int NextYState = 0;
@@ -74,6 +76,7 @@ public class select1p : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         CurState = NextXState + NextYState * 3;
+        
         IsRunning--;
         yield return null;
     }
@@ -84,6 +87,9 @@ public class select1p : MonoBehaviour
         if (ready1p)
         {
             this.GetComponent<SpriteRenderer>().color = Color.yellow;
+            CurrentCharacter1p = CurState;
+            Debug.Log("Player 1");
+            Debug.Log(CurrentCharacter1p);
         }
         else
         {
