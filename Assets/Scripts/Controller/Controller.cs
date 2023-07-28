@@ -73,7 +73,7 @@ public class Controller : MonoBehaviour
         SnapBomb(bomb);
         CurrentBombs++;
 
-        SoundManager.Instance.PlaySFXSound("Bomb_Spawn", 3f);
+        SoundManager.Instance.PlaySFXSound("Bomb_Spawn", 5f);
 
         yield return new WaitForSeconds(BombTimer);
 
@@ -125,7 +125,7 @@ public class Controller : MonoBehaviour
         Needle--;
         Destroy(transform.GetChild(0).gameObject);
         PlayerAnimator.SetTrigger("Needle");
-        SoundManager.Instance.PlaySFXSound("Pop", 0.3f);
+        SoundManager.Instance.PlaySFXSound("Pop", 1f);
         Flowed = false;
         CurrentSpeed = PlayerSpeedInit;
     }

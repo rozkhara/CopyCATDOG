@@ -50,6 +50,7 @@ public class Airplane : MonoBehaviour
         if (IsAirplaneSpawn)
         {
             Airplaneobj.transform.position = Vector2.MoveTowards(Airplaneobj.transform.position, AirplaneTarget, 0.03f);
+            SoundManager.Instance.PlaySFXSound("Airplane", 0.1f);
             if (Airplaneobj.transform.position.x == AirplaneTarget.x)
             {
                 IsAirplaneSpawn = false;

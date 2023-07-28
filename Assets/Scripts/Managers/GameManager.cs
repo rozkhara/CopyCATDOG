@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         CharacterStats[2, 1] = 3; // PlayerRange
         CharacterStats[2, 2] = 3; // MaxBomb
 
-        SoundManager.Instance.PlayBGMSound(1f);
+        SoundManager.Instance.PlayBGMSound(0.3f);
 
         CheckPlayer(PickCharacter.CurrentCharacter1p, PickCharacter.CurrentCharacter2p);
 
