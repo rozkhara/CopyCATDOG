@@ -11,7 +11,7 @@ public class Bush : MonoBehaviour
         {
             // Disable the sprite renderer if it has one
             spriteRenderer.enabled = false;
-            if (other.transform.GetChild(0) != null)
+            if (other.transform.childCount > 0)
             {
                 other.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
             }
@@ -27,7 +27,7 @@ public class Bush : MonoBehaviour
         {
             // Enable the sprite renderer if it has one
             spriteRenderer.enabled = true;
-            if (other.transform.GetChild(0) != null)
+            if (other.transform.childCount > 0)
             {
                 other.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
             }

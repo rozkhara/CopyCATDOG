@@ -10,6 +10,7 @@ public class ChangeScene : MonoBehaviour
         if (Input.anyKeyDown)
         {
             // Hide the tutorial canvas
+            SoundManager.Instance.PlayBGMSound(0.1f);
             SceneManager.LoadScene("Start");
         }
     }
