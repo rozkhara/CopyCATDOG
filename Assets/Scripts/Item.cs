@@ -31,25 +31,20 @@ public class Item : MonoBehaviour
                 ObtainPlayerInfo.CurrentSpeed += 1;
                 ObtainPlayerInfo.PlayerSpeedInit += 1;
             }
-            else
-            {
-                Debug.Log("Full speed");
-            }
+           
            
         }
         else if (ItemIndex == 1)
         {
             if (ObtainPlayerInfo.PlayerRange <= ObtainPlayerInfo.MaxRange)
                 ObtainPlayerInfo.PlayerRange += 1;
-            else
-                Debug.Log("Full Range");
+           
         }
         else
         {
             if (ObtainPlayerInfo.BombCount <= ObtainPlayerInfo.MaxBomb)
                 ObtainPlayerInfo.BombCount += 1;
-            else
-                Debug.Log("Full bomb");
+         
         }
 
         Destroy(gameObject);

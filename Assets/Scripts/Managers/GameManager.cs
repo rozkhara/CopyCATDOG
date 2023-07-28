@@ -28,8 +28,8 @@ public class GameManager : MonoBehaviour
 
     //public GameObject[] Items;
 
-    public int Player1Select = 1;
-    public int Player2Select = 2;
+    public int Player1Select;
+    public int Player2Select;
     private Vector2 StartPosition1 = new(-7f, -4.3f);
     private Vector2 StartPosition2 = new(2.8f, 4.1f);
 
@@ -112,7 +112,10 @@ public class GameManager : MonoBehaviour
 
         SoundManager.Instance.PlayBGMSound(0.3f);
 
-        CheckPlayer(PickCharacter.CurrentCharacter1p, PickCharacter.CurrentCharacter2p);
+        Player1Select = select1p.CurrentCharacter1p;
+
+        Player2Select = select2p.CurrentCharacter2p;
+        CheckPlayer(Player1Select, Player2Select);
 
     }
 
@@ -130,18 +133,18 @@ public class GameManager : MonoBehaviour
             if (playerscript != null)
             {
                 playerscript.SetCharacterStats(
-                    CharacterStats[Stats - 1, 0],
-                    CharacterStats[Stats - 1, 1],
-                    CharacterStats[Stats - 1, 2],
-                    CharacterStats[Stats - 1, 3],
-                    CharacterStats[Stats - 1, 4],
-                    CharacterStats[Stats - 1, 5]
+                    CharacterStats[Stats, 0],
+                    CharacterStats[Stats, 1],
+                    CharacterStats[Stats, 2],
+                    CharacterStats[Stats, 3],
+                    CharacterStats[Stats, 4],
+                    CharacterStats[Stats, 5]
                 );
             }
             player.tag = "Player1";
             Player1Spawned = player;
         }
-        else if (playerIndex == 2)
+        if (playerIndex == 2)
         {
             // Disable the Player1 script on the player object
             player.GetComponent<Player1>().enabled = false;
@@ -151,12 +154,12 @@ public class GameManager : MonoBehaviour
             if (playerscript != null)
             {
                 playerscript.SetCharacterStats(
-                    CharacterStats[Stats - 1, 0],
-                    CharacterStats[Stats - 1, 1],
-                    CharacterStats[Stats - 1, 2],
-                    CharacterStats[Stats - 1, 3],
-                    CharacterStats[Stats - 1, 4],
-                    CharacterStats[Stats - 1, 5]
+                    CharacterStats[Stats, 0],
+                    CharacterStats[Stats, 1],
+                    CharacterStats[Stats, 2],
+                    CharacterStats[Stats, 3],
+                    CharacterStats[Stats, 4],
+                    CharacterStats[Stats, 5]
                 );
             }
             player.tag = "Player2";
@@ -166,31 +169,15 @@ public class GameManager : MonoBehaviour
 
     private void CheckPlayer(int Player1, int Player2)
     {
-        switch (Player1)
+        if(Player1 >= 0)
         {
-            case 1:
-                SpawnPlayers(PlayerPrefab[0], StartPosition1, 1, Player1Select);
-                break;
-            case 2:
-                SpawnPlayers(PlayerPrefab[0], StartPosition1, 1, Player1Select);
-                break;
-            // Add more cases for other values of Player1 if needed
-            default:
-                break;
+            SpawnPlayers(PlayerPrefab[0], StartPosition1, 1, Player1);
         }
-
-        switch (Player2)
+        if(Player2 >= 0)
         {
-            case 1:
-                SpawnPlayers(PlayerPrefab[1], StartPosition2, 2, Player2Select);
-                break;
-            case 2:
-                SpawnPlayers(PlayerPrefab[1], StartPosition2, 2, Player2Select);
-                break;
-            // Add more cases for other values of Player2 if needed
-            default:
-                break;
+            SpawnPlayers(PlayerPrefab[1], StartPosition2, 2, Player2);
         }
+             
     }
 
 }
