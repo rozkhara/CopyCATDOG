@@ -50,6 +50,7 @@ public class WaterBomb_Execute : MonoBehaviour
     {
         FlowSetting();
         WBBurstPlayer();
+        SoundManager.Instance.PlaySFXSound("Explosion", 3f);
         Destroy(gameObject);
         yield break;
     }

@@ -12,10 +12,13 @@ public class Item : MonoBehaviour
         if (ObtainPlayer.gameObject.CompareTag("Player1") && !ObtainPlayer1Info.Flowed)
         {
             ObtainItem(ObtainPlayer1Info);
+            SoundManager.Instance.PlaySFXSound("Pickup", 1f);
+
         }
         else if(ObtainPlayer.gameObject.CompareTag("Player2") && !ObtainPlayer2Info.Flowed)
         {
             ObtainItem(ObtainPlayer2Info);
+            SoundManager.Instance.PlaySFXSound("Pickup", 1f);
         }
     }
 

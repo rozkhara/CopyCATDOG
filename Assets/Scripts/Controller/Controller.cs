@@ -21,6 +21,7 @@ public class Controller : MonoBehaviour
     public int Needle { get; protected set; }
     public bool Flowed { get; set; }
 
+
     private void FixedUpdate()
     {
         HandlePlayerMovement();
@@ -43,7 +44,6 @@ public class Controller : MonoBehaviour
             playerMovement.x = 0f;
             playerMovement.y = 0f;
         }
-
         playerMovement.Normalize();
 
         PlayerAnimator.SetFloat("Horizontal", playerMovement.x);
@@ -72,6 +72,8 @@ public class Controller : MonoBehaviour
         bomb.GetComponent<WaterBomb_Execute>().FlowLength = (float)PlayerRange;
         SnapBomb(bomb);
         CurrentBombs++;
+
+        SoundManager.Instance.PlaySFXSound("Bomb_Spawn", 3f);
 
         yield return new WaitForSeconds(BombTimer);
 
@@ -123,6 +125,7 @@ public class Controller : MonoBehaviour
         Needle--;
         Destroy(transform.GetChild(0).gameObject);
         PlayerAnimator.SetTrigger("Needle");
+        SoundManager.Instance.PlaySFXSound("Pop", 0.3f);
         Flowed = false;
         CurrentSpeed = PlayerSpeedInit;
     }

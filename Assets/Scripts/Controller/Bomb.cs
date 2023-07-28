@@ -4,8 +4,6 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     private Collider2D bombCollider;
-    private bool isInsideInBox;
-    private bool colliderEnabled;
 
     public Vector2 bombSize = new(0.7f, 0.7f);
 
