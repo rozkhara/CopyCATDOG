@@ -164,7 +164,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bombSize: {x: 0.7, y: 0.7}
-  SpawnedBy: {fileID: 0}
 --- !u!50 &-1105662720714535022
 Rigidbody2D:
   serializedVersion: 4
