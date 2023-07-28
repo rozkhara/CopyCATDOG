@@ -44,5 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f420cc7d2021942b0c6fd4fec6a363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  box: []
+  canDestroyBlock: []
+  cannnotDestroyBlock: []
+  BlockList: []
+  spawnMap: {fileID: 0}
   AirplanePrefab: {fileID: 5449556878822606691}
+  SpeedBoost: {fileID: 9020121623503461080, guid: 39c404fc584f0404cae751c808ef5052, type: 3}
+  RangeBoost: {fileID: 9020121623503461080, guid: 97a121a598518514c8aaef5c0c37ced5, type: 3}
+  MaxWBBoost: {fileID: 9020121623503461080, guid: 961c7bd26f3cf3340a36f2159b7aa5d2, type: 3}
