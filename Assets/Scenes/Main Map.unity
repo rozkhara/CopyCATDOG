@@ -1790,6 +1790,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1987134071}
     - target: {fileID: 239380307381229663, guid: 078fa1ea62daae947a3542ebe9aee05c, type: 3}
+      propertyPath: MaxWBBoost
+      value: 
+      objectReference: {fileID: 9020121623503461080, guid: 961c7bd26f3cf3340a36f2159b7aa5d2, type: 3}
+    - target: {fileID: 239380307381229663, guid: 078fa1ea62daae947a3542ebe9aee05c, type: 3}
+      propertyPath: RangeBoost
+      value: 
+      objectReference: {fileID: 9020121623503461080, guid: 97a121a598518514c8aaef5c0c37ced5, type: 3}
+    - target: {fileID: 239380307381229663, guid: 078fa1ea62daae947a3542ebe9aee05c, type: 3}
+      propertyPath: SpeedBoost
+      value: 
+      objectReference: {fileID: 9020121623503461080, guid: 39c404fc584f0404cae751c808ef5052, type: 3}
+    - target: {fileID: 239380307381229663, guid: 078fa1ea62daae947a3542ebe9aee05c, type: 3}
       propertyPath: AirplanePrefab
       value: 
       objectReference: {fileID: 8010503291165124327, guid: 1cba3f843cde186428bcbe5aaa2c7283, type: 3}
