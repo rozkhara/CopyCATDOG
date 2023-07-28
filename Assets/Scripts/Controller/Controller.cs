@@ -93,19 +93,7 @@ public class Controller : MonoBehaviour
     //FIXME: have to change the code after getting DHHS implemented
     private bool CanPlaceBomb(Vector2 bombPosition)
     {
-        // Check if there is already a bomb at the target position
-        Physics2D.OverlapPoint(bombPosition, 64);
-        //Fix the code after finding the bomb position on the grid
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(bombPosition, 1.0f); // Adjust the radius as needed
-        foreach (Collider2D collider in colliders)
-        {
-            if (collider.CompareTag("Bomb"))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return !Physics2D.OverlapPoint(FindWBSpawnPoint(bombPosition), 64);
     }
 
     // Method to set character stats
@@ -121,16 +109,16 @@ public class Controller : MonoBehaviour
         Needle = 2;
         Flowed = false;
     }
-    public Vector2 FindWBSpawnPoint(GameObject bombObject)
+    public Vector2 FindWBSpawnPoint(Vector2 bombPosition)
     {
-        int xIndex = (int)Mathf.Round((float)(bombObject.transform.position.x + 7f) / 0.7f);
-        int yIndex = (int)Mathf.Round((float)(bombObject.transform.position.y + 4.3f) / 0.7f);
+        int xIndex = (int)Mathf.Round((float)(bombPosition.x + 7f) / 0.7f);
+        int yIndex = (int)Mathf.Round((float)(bombPosition.y + 4.3f) / 0.7f);
         return new Vector2(xIndex * 0.7f - 7f, yIndex * 0.7f - 4.3f);
     }
 
     private void SnapBomb(GameObject bombObject)
     {
-        bombObject.transform.position = FindWBSpawnPoint(bombObject);
+        bombObject.transform.position = FindWBSpawnPoint(bombObject.transform.position);
     }
 
     protected virtual void UseNeedle()
