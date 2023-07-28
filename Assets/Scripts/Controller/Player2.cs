@@ -6,7 +6,6 @@ public class Player2 : Controller
 {
     // This script inherits properties from the Controller script
 
-
     private void Update()
     {
         HandleBombSpawn();
@@ -35,7 +34,6 @@ public class Player2 : Controller
         if (Input.GetButtonDown("Player2Needle") && Needle > 0 && Flowed)
         {
             base.UseNeedle();
-            Debug.Log("Needle");
         }
             
     }

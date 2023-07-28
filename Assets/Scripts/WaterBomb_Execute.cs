@@ -24,6 +24,8 @@ public class WaterBomb_Execute : MonoBehaviour
     public GameObject Flow_Condition;
     private GameObject FlowBackground;
 
+    public GameObject airplane;
+
     private void Start()
     {
         StartCoroutine(WBExceed());
@@ -74,6 +76,7 @@ public class WaterBomb_Execute : MonoBehaviour
 
             if (isHit.collider.gameObject.CompareTag("CanDestroy"))
             {
+                airplane.GetComponent<Airplane>().MakeEmpty(isHit.collider.gameObject.transform);
                 Destroy(isHit.collider.gameObject);
 
                 float RandomPoint = Random.value * 100;
@@ -167,12 +170,8 @@ public class WaterBomb_Execute : MonoBehaviour
         float PlayerY = FlowedPlayerInfo.transform.position.y;
         Vector2 PlayerPos = new Vector2(PlayerX, PlayerY);
 
-        Debug.Log(FlowedPlayerInfo.Flowed);
-
         FlowBackground = Instantiate(Flow_Condition, PlayerPos, transform.rotation);
         FlowBackground.transform.parent = TargetPlayer.transform;
-
-        Debug.Log(TargetPlayer.name);
 
         FlowedPlayerInfo.CurrentSpeed = 1;
     }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
@@ -20,7 +19,6 @@ public class Controller : MonoBehaviour
 
     public int Needle { get; protected set; }
     public bool Flowed { get; set; }
-
 
     private void FixedUpdate()
     {
