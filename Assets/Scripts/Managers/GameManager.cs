@@ -30,8 +30,17 @@ public class GameManager : MonoBehaviour
 
     public int Player1Select = 1;
     public int Player2Select = 2;
-    private Vector2 StartPosition1 = new(-7f, -4.3f);
-    private Vector2 StartPosition2 = new(2.8f, 4.1f);
+    private Vector2 StartPosition1P1 = new(-6.3f, -4.3f);
+    private Vector2 StartPosition2P1 = new(2.1f, 4.1f);
+    private Vector2 StartPosition1P2 = new(2.8f, -4.3f);
+    private Vector2 StartPosition2P2 = new(-7f, 4.1f);
+    private Vector2 StartPosition1P3 = new(-2.1f, -4.3f);
+    private Vector2 StartPosition2P3 = new(-2.1f, 4.1f);
+    private Vector2 StartPosition1P;
+    private Vector2 StartPosition2P;
+
+    public GameObject indicator1P;
+    public GameObject indicator2P;
 
     // Start is called before the first frame update
     void Start()
@@ -166,13 +175,32 @@ public class GameManager : MonoBehaviour
 
     private void CheckPlayer(int Player1, int Player2)
     {
+        switch(Random.Range(1, 4))
+        {
+            case 1:
+                StartPosition1P = StartPosition1P1;
+                StartPosition2P = StartPosition2P1;
+                break;
+            case 2:
+                StartPosition1P = StartPosition1P2;
+                StartPosition2P = StartPosition2P2;
+                break;
+            case 3:
+                StartPosition1P = StartPosition1P3;
+                StartPosition2P = StartPosition2P3;
+                break;
+        }
+
+        indicator1P.transform.position = StartPosition1P + new Vector2(0f, 0.7f);
+        indicator2P.transform.position = StartPosition2P - new Vector2(0f, 0.7f);
+
         switch (Player1)
         {
             case 1:
-                SpawnPlayers(PlayerPrefab[0], StartPosition1, 1, Player1Select);
+                SpawnPlayers(PlayerPrefab[0], StartPosition1P, 1, Player1Select);
                 break;
             case 2:
-                SpawnPlayers(PlayerPrefab[0], StartPosition1, 1, Player1Select);
+                SpawnPlayers(PlayerPrefab[0], StartPosition1P, 1, Player1Select);
                 break;
             // Add more cases for other values of Player1 if needed
             default:
@@ -182,10 +210,10 @@ public class GameManager : MonoBehaviour
         switch (Player2)
         {
             case 1:
-                SpawnPlayers(PlayerPrefab[1], StartPosition2, 2, Player2Select);
+                SpawnPlayers(PlayerPrefab[1], StartPosition2P, 2, Player2Select);
                 break;
             case 2:
-                SpawnPlayers(PlayerPrefab[1], StartPosition2, 2, Player2Select);
+                SpawnPlayers(PlayerPrefab[1], StartPosition2P, 2, Player2Select);
                 break;
             // Add more cases for other values of Player2 if needed
             default:
