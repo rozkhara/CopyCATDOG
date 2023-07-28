@@ -152,6 +152,11 @@ MonoBehaviour:
   MaxWBBoost: {fileID: 9020121623503461080, guid: 961c7bd26f3cf3340a36f2159b7aa5d2, type: 3}
   Flow_Condition: {fileID: 4722547937941086577, guid: 984397b3f7e8fb94580f9eddc4d806d1, type: 3}
   airplane: {fileID: 5449556878822606691, guid: 078fa1ea62daae947a3542ebe9aee05c, type: 3}
+  FlowCenterPrefab: {fileID: 8722362607125710096, guid: a1c6e17aa29e86249badd0f09ad0f941, type: 3}
+  FlowRightPrefab: {fileID: 5512276453896355587, guid: 5362d5ca0ee7ddf4b982b042ad49ce60, type: 3}
+  FlowLeftPrefab: {fileID: 5537320744896539454, guid: 6a1bb6221a98b824585786b24c853917, type: 3}
+  FlowUpPrefab: {fileID: 3320019064490279689, guid: ccaf475466bcd5c4e8fe6eb01eefe669, type: 3}
+  FlowDownPrefab: {fileID: 8722362607125710096, guid: 3615095371283e34992669dcad0e38c3, type: 3}
 --- !u!114 &-6083642786391462167
 MonoBehaviour:
   m_ObjectHideFlags: 0
