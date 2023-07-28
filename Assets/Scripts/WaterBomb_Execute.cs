@@ -49,7 +49,7 @@ public class WaterBomb_Execute : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         WBpos = new Vector2(transform.position.x, transform.position.y);
-        FlowLengthRaw = FlowLength * 0.7f;
+        FlowLengthRaw = 0.35f + (FlowLength - 1) * 0.7f;
         yield break;
     }
 
@@ -110,7 +110,6 @@ public class WaterBomb_Execute : MonoBehaviour
             Flow = FlowLengthRaw;
             BurstItem(Flow, direction);
         }
-
         FlowSprite(Flow, p);
     }
 
@@ -147,32 +146,48 @@ public class WaterBomb_Execute : MonoBehaviour
         {
             for (int k = 1; k <= SpriteNumber; k++)
             {
-                Vector2 SpritePos = new Vector2((float)(WBpos.x + 0.7 * k), WBpos.y);
-                Instantiate(FlowRightPrefab, SpritePos, Quaternion.identity);
+                float SpriteX = (float)(WBpos.x + 0.7 * k);
+                if (SpriteX < 3.4f)
+                {
+                    Vector2 SpritePos = new Vector2(SpriteX, WBpos.y);
+                    Instantiate(FlowRightPrefab, SpritePos, Quaternion.identity);
+                }
             }
         }
         else if (i == 1)
         {
             for (int k = 1; k <= SpriteNumber; k++)
             {
-                Vector2 SpritePos = new Vector2((float)(WBpos.x - 0.7 * k), WBpos.y);
-                Instantiate(FlowLeftPrefab, SpritePos, Quaternion.identity);
+                float SpriteX = (float)(WBpos.x - 0.7 * k);
+                if (SpriteX > -7.6f)
+                {
+                    Vector2 SpritePos = new Vector2(SpriteX, WBpos.y);
+                    Instantiate(FlowLeftPrefab, SpritePos, Quaternion.identity);
+                }
             }
         }
         else if (i == 2)
         {
             for (int k = 1; k <= SpriteNumber; k++)
             {
-                Vector2 SpritePos = new Vector2(WBpos.x, (float)(WBpos.y + 0.7 * k));
-                Instantiate(FlowUpPrefab, SpritePos, Quaternion.identity);
+                float SpriteY = (float)(WBpos.y + 0.7 * k);
+                if (SpriteY < 4.7)
+                {
+                    Vector2 SpritePos = new Vector2(WBpos.x, SpriteY);
+                    Instantiate(FlowUpPrefab, SpritePos, Quaternion.identity);
+                }
             }
         }
         else if (i == 3)
         {
             for (int k = 1; k <= SpriteNumber; k++)
             {
-                Vector2 SpritePos = new Vector2(WBpos.x, (float)(WBpos.y - 0.7 * k));
-                Instantiate(FlowDownPrefab, SpritePos, Quaternion.identity);
+                float SpriteY = (float)(WBpos.y - 0.7 * k);
+                if (SpriteY > -4.9)
+                {
+                    Vector2 SpritePos = new Vector2(WBpos.x, SpriteY);
+                    Instantiate(FlowDownPrefab, SpritePos, Quaternion.identity);
+                }
             }
         }
     }
@@ -182,10 +197,10 @@ public class WaterBomb_Execute : MonoBehaviour
     {
         List<Collider2D> PlayerHit = new();
 
-        RaycastHit2D[] HitinfoR = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[0], FlowAll[0], PlayerLayer);
-        RaycastHit2D[] HitinfoL = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[1], FlowAll[1], PlayerLayer);
-        RaycastHit2D[] HitinfoU = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[2], FlowAll[2], PlayerLayer);
-        RaycastHit2D[] HitinfoD = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[3], FlowAll[3], PlayerLayer);
+        RaycastHit2D[] HitinfoR = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[0], FlowAll[0] - 0.64f, PlayerLayer);
+        RaycastHit2D[] HitinfoL = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[1], FlowAll[1] - 0.64f, PlayerLayer);
+        RaycastHit2D[] HitinfoU = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[2], FlowAll[2] - 0.64f, PlayerLayer);
+        RaycastHit2D[] HitinfoD = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[3], FlowAll[3] - 0.64f, PlayerLayer);
 
         foreach (RaycastHit2D player in HitinfoR)
             PlayerHit.Add(player.collider);

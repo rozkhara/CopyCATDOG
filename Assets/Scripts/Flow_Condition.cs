@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,15 +10,19 @@ public class Flow_Condition : MonoBehaviour
     private Animator anim;
     private Controller parentController;
 
+    private bool Isplayer1;
+
     private void Start()
     {
         if (transform.parent.CompareTag("Player1"))
         {
             parentController = transform.parent.gameObject.GetComponent<Player1>();
+            Isplayer1 = true;
         }
         else
         {
             parentController = transform.parent.gameObject.GetComponent<Player2>();
+            Isplayer1 = false;
         }
         anim = transform.parent.gameObject.GetComponent<Animator>();
         StartCoroutine(PlayerDie());
@@ -42,7 +47,14 @@ public class Flow_Condition : MonoBehaviour
     private IEnumerator MovetoEndScene()
     {
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene("End");
+        if(Isplayer1)
+        {
+            SceneManager.LoadScene("End2");
+        }
+        else
+        {
+            SceneManager.LoadScene("End1");
+        }
         yield break;
     }
 
