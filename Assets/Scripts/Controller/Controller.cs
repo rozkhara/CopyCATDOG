@@ -73,7 +73,7 @@ public class Controller : MonoBehaviour
         SnapBomb(bomb);
         CurrentBombs++;
 
-        SoundManager.Instance.PlaySFXSound("Bomb_Spawn", 5f);
+        SoundManager.Instance.PlaySFXSound("Bomb_Spawn", 1f);
 
         yield return new WaitForSeconds(BombTimer);
 

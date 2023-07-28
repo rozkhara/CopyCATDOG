@@ -50,8 +50,8 @@ public class Flow_Condition : MonoBehaviour
         yield return new WaitForSeconds(5f);
         EndSetting(transform.parent.gameObject, transform.parent.gameObject);
         transform.parent.gameObject.GetComponent<Animator>().SetTrigger("Dead");
-        yield return new WaitForSeconds(2f);
-        Destroy(transform.parent.gameObject);
+        //yield return new WaitForSeconds(2f);
+        //Destroy(transform.parent.gameObject);
     }
 }
 

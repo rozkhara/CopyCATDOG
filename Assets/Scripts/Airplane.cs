@@ -9,6 +9,7 @@ public class Airplane : MonoBehaviour
     public SpawnMap spawnMap;
 
     private bool Initialized = false;
+    private bool AirplaneCoroutineRunning = false;
     private bool[,] isFull = new bool[15, 13];
 
     public GameObject AirplanePrefab;
@@ -49,13 +50,28 @@ public class Airplane : MonoBehaviour
 
         if (IsAirplaneSpawn)
         {
+            if (!AirplaneCoroutineRunning)
+            {
+                StartCoroutine(MoveAirPlane());
+            }
+        }
+    }
+
+    private IEnumerator MoveAirPlane()
+    {
+        AirplaneCoroutineRunning = true;
+        SoundManager.Instance.PlaySFXSound("Airplane", 0.1f);
+        while (true)
+        {
             Airplaneobj.transform.position = Vector2.MoveTowards(Airplaneobj.transform.position, AirplaneTarget, 0.03f);
-            SoundManager.Instance.PlaySFXSound("Airplane", 0.1f);
             if (Airplaneobj.transform.position.x == AirplaneTarget.x)
             {
                 IsAirplaneSpawn = false;
                 Destroy(Airplaneobj);
+                AirplaneCoroutineRunning = false;
+                yield break;
             }
+            yield return new WaitForEndOfFrame();
         }
     }
 

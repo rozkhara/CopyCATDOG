@@ -25,13 +25,11 @@ public class Bomb : MonoBehaviour
         if (Player1.transform.position.x <= this.transform.position.x - bombSize.x || Player1.transform.position.x >= this.transform.position.x + bombSize.x ||
             Player1.transform.position.y <= this.transform.position.y - bombSize.y || Player1.transform.position.y >= this.transform.position.y + bombSize.y)
         {
-            //Debug.Log("hello");
             Physics2D.IgnoreCollision(bombCollider, Player1.GetComponent<Collider2D>(), false);
         }
         if (Player2.transform.position.x <= this.transform.position.x - bombSize.x || Player2.transform.position.x >= this.transform.position.x + bombSize.x ||
             Player2.transform.position.y <= this.transform.position.y - bombSize.y || Player2.transform.position.y >= this.transform.position.y + bombSize.y)
         {
-            //Debug.Log("hello");
             Physics2D.IgnoreCollision(bombCollider, Player2.GetComponent<Collider2D>(), false);
         }
     }
