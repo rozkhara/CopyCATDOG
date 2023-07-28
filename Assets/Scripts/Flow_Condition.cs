@@ -6,6 +6,10 @@ public class Flow_Condition : MonoBehaviour
 {
     private int PlayerLayer = 3;
 
+    private void Start()
+    {
+        StartCoroutine(PlayerDie());
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == PlayerLayer)
@@ -39,6 +43,15 @@ public class Flow_Condition : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene("End");
         yield break;
+    }
+
+    private IEnumerator PlayerDie()
+    {
+        yield return new WaitForSeconds(5f);
+        EndSetting(transform.parent.gameObject, transform.parent.gameObject);
+        transform.parent.gameObject.GetComponent<Animator>().SetTrigger("Dead");
+        yield return new WaitForSeconds(2f);
+        Destroy(transform.parent.gameObject);
     }
 }
 
