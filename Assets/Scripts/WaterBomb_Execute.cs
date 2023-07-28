@@ -143,9 +143,9 @@ public class WaterBomb_Execute : MonoBehaviour
     {
         int SpriteNumber = Mathf.RoundToInt((length - 0.35f) / 0.7f);
 
-        if(i == 0)
+        if (i == 0)
         {
-            for(int k = 1; k <= SpriteNumber; k++)
+            for (int k = 1; k <= SpriteNumber; k++)
             {
                 Vector2 SpritePos = new Vector2((float)(WBpos.x + 0.7 * k), WBpos.y);
                 Instantiate(FlowRightPrefab, SpritePos, Quaternion.identity);

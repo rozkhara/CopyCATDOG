@@ -6,36 +6,37 @@ public class Flow_Condition : MonoBehaviour
 {
     private int PlayerLayer = 3;
 
+    private Animator anim;
+    private Controller parentController;
+
     private void Start()
     {
+        if (transform.parent.CompareTag("Player1"))
+        {
+            parentController = transform.parent.gameObject.GetComponent<Player1>();
+        }
+        else
+        {
+            parentController = transform.parent.gameObject.GetComponent<Player2>();
+        }
+        anim = transform.parent.gameObject.GetComponent<Animator>();
         StartCoroutine(PlayerDie());
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == PlayerLayer)
         {
-            if (other.gameObject.CompareTag("Player1"))
-            {
-                EndSetting(other.gameObject, transform.parent.gameObject);
-            }
-            else
-            {
-                EndSetting(transform.parent.gameObject, other.gameObject);
-            }
-
+            parentController.Flowed = false;
+            anim.SetBool("Dead", true);
+            parentController.Dead = true;
             StartCoroutine(MovetoEndScene());
         }
     }
 
-    private void EndSetting(GameObject Player1, GameObject Player2)
+    private void EndSetting()
     {
-        Controller Player1Info = Player1.GetComponent<Player1>();
-        Controller Player2Info = Player2.GetComponent<Player2>();
-
-        Player1Info.MaxBomb = 0;
-        Player1Info.CurrentSpeed = 0;
-        Player2Info.MaxBomb = 0;
-        Player2Info.CurrentSpeed = 0;
+        parentController.CurrentSpeed = 0;
+        parentController.MaxBomb = 0;
     }
 
     private IEnumerator MovetoEndScene()
@@ -48,10 +49,14 @@ public class Flow_Condition : MonoBehaviour
     private IEnumerator PlayerDie()
     {
         yield return new WaitForSeconds(5f);
-        EndSetting(transform.parent.gameObject, transform.parent.gameObject);
-        transform.parent.gameObject.GetComponent<Animator>().SetTrigger("Dead");
-        //yield return new WaitForSeconds(2f);
-        //Destroy(transform.parent.gameObject);
+        if (parentController.Flowed)
+        {
+            EndSetting();
+            parentController.Flowed = false;
+            anim.SetBool("Dead", true);
+            parentController.Dead = true;
+            StartCoroutine(MovetoEndScene());
+        }
     }
 }
 

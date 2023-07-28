@@ -21,6 +21,8 @@ public class Controller : MonoBehaviour
     public int Needle { get; protected set; }
     public bool Flowed { get; set; }
 
+    public bool Dead { get; set; } = false;
+
 
     private void FixedUpdate()
     {
@@ -51,7 +53,10 @@ public class Controller : MonoBehaviour
         PlayerAnimator.SetFloat("Speed", playerMovement.sqrMagnitude);
         PlayerAnimator.SetBool("Hit", Flowed);
 
-        transform.Translate(CurrentSpeed * Time.deltaTime * playerMovement);
+        if (!Dead)
+        {
+            transform.Translate(CurrentSpeed * Time.deltaTime * playerMovement);
+        }
     }
 
     protected virtual void HandleBombSpawn()

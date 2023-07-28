@@ -22,7 +22,6 @@ public class Player2 : Controller
         float MoveX = Input.GetAxisRaw("Player2Horizontal");
         float MoveY = Input.GetAxisRaw("Player2Vertical");
         Move(MoveX, MoveY);
-        //Debug.Log($"Player2 - Speed: {PlayerSpeed}, Range: {PlayerRange}, MaxBomb: {MaxBomb}, ExplosionRange: {BombExplosionRange}");
     }
 
     protected override void HandleBombSpawn()
