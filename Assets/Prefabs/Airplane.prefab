@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2484500454998460164
 SpriteRenderer:
@@ -94,7 +94,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5449556878822606691}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56bcf1b2d57a2d3419febccd68a55cf0, type: 3}
+  m_Script: {fileID: 11500000, guid: 22f420cc7d2021942b0c6fd4fec6a363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   box: []
+  AirplanePrefab: {fileID: 5449556878822606691}

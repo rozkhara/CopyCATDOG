@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6560591471359813977}
   - component: {fileID: 6823024744237038223}
   - component: {fileID: 1134069670140801869}
-  - component: {fileID: 631814624940599476}
   - component: {fileID: 4052159383154791738}
   - component: {fileID: 1297164278650337717}
   m_Layer: 3
@@ -189,21 +188,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaterBomb: {fileID: 4173987505576844063, guid: a53e87b6c4f00024c8b6c50df6076d42, type: 3}
---- !u!114 &631814624940599476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7759527791707479610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57b5a345b49913c49bb85633f9051fdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Flowed: 0
-  Velocity: 5
-  needle: 2
 --- !u!95 &4052159383154791738
 Animator:
   serializedVersion: 5
