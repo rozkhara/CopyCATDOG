@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     //public GameObject[] Items;
 
     public int Player1Select = 1;
-    public int Player2Select = 1;
+    public int Player2Select = 3;
     private Vector2 StartPosition1 = new(-7f, -4.3f);
     private Vector2 StartPosition2 = new(2.8f, 4.1f);
 
@@ -23,19 +23,19 @@ public class GameManager : MonoBehaviour
         CharacterStats[0, 0] = 5; // PlayerSpeed
         CharacterStats[0, 1] = 5; // PlayerRange
         CharacterStats[0, 2] = 5; // MaxBomb
-        CharacterStats[0, 3] = 5; // BombExplosionRange
+
 
         //For Beta
         CharacterStats[1, 0] = 4; // PlayerSpeed
         CharacterStats[1, 1] = 4; // PlayerRange
         CharacterStats[1, 2] = 4; // MaxBomb
-        CharacterStats[1, 3] = 4; // BombExplosionRange
+
 
         //For Gamma
         CharacterStats[2, 0] = 3; // PlayerSpeed
         CharacterStats[2, 1] = 3; // PlayerRange
         CharacterStats[2, 2] = 3; // MaxBomb
-        CharacterStats[2, 3] = 3; // BombExplosionRange
+
 
         CheckPlayer(PickCharacter.CurrentCharacter1p, PickCharacter.CurrentCharacter2p);
 
@@ -57,8 +57,7 @@ public class GameManager : MonoBehaviour
                 playerscript.SetCharacterStats(
                     CharacterStats[Stats - 1, 0],
                     CharacterStats[Stats - 1, 1],
-                    CharacterStats[Stats - 1, 2],
-                    CharacterStats[Stats - 1, 3]
+                    CharacterStats[Stats - 1, 2]
                 );
             }
             player.tag = "Player1";
@@ -75,8 +74,7 @@ public class GameManager : MonoBehaviour
                 playerscript.SetCharacterStats(
                     CharacterStats[Stats - 1, 0],
                     CharacterStats[Stats - 1, 1],
-                    CharacterStats[Stats - 1, 2],
-                    CharacterStats[Stats - 1, 3]
+                    CharacterStats[Stats - 1, 2]
                 );
             }
             player.tag = "Player2";

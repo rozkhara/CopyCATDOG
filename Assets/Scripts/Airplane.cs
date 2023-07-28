@@ -6,6 +6,9 @@ using UnityEngine;
 public class Airplane : MonoBehaviour
 {
     public GameObject[] box;
+    public SpawnMap spawnMap;
+
+    private bool Initialized = false;
     private bool[,] isFull = new bool[15, 13];
 
     public GameObject AirplanePrefab;
@@ -13,24 +16,41 @@ public class Airplane : MonoBehaviour
     private bool IsAirplaneSpawn = false;
     private Vector2 AirplaneTarget = new Vector2(12, 4);
 
-    void Start()
-    {
-        for (int i = 0; i < box.Length; i++)
-        {
-            int xIndex = (int)Mathf.Round((float)(box[i].transform.position.x + 7f) / 0.7f);
-            int yIndex = (int)Mathf.Round((float)(box[i].transform.position.y + 4.3f) / 0.7f);
-            isFull[xIndex, yIndex] = true;
-        }
+    //void Start()
+    //{
+    //    box = GameObject.FindGameObjectsWithTag("CanDestroy");
 
-        StartCoroutine(ExecuteAirplane());
-    }
+    //    for (int i = 0; i < box.Length; i++)
+    //    {
+    //        int xIndex = (int)Mathf.Round((float)(box[i].transform.position.x + 7f) / 0.7f);
+    //        int yIndex = (int)Mathf.Round((float)(box[i].transform.position.y + 4.3f) / 0.7f);
+    //        isFull[xIndex, yIndex] = true;
+    //    }
+
+    //    StartCoroutine(ExecuteAirplane());
+    //}
 
     private void Update()
     {
+        if (spawnMap.SpawnComplete && !Initialized)
+        {
+            box = GameObject.FindGameObjectsWithTag("CanDestroy");
+
+            for (int i = 0; i < box.Length; i++)
+            {
+                int xIndex = (int)Mathf.Round((float)(box[i].transform.position.x + 7f) / 0.7f);
+                int yIndex = (int)Mathf.Round((float)(box[i].transform.position.y + 4.3f) / 0.7f);
+                isFull[xIndex, yIndex] = true;
+            }
+
+            StartCoroutine(ExecuteAirplane());
+            Initialized = true;
+        }
+
         if (IsAirplaneSpawn)
         {
             Airplaneobj.transform.position = Vector2.MoveTowards(Airplaneobj.transform.position, AirplaneTarget, 0.03f);
-            if(Airplaneobj.transform.position.x == AirplaneTarget.x)
+            if (Airplaneobj.transform.position.x == AirplaneTarget.x)
             {
                 IsAirplaneSpawn = false;
                 Destroy(Airplaneobj);

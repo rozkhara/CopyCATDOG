@@ -15,9 +15,8 @@ public class Controller : MonoBehaviour
 
     public int PlayerSpeedInit { get; set; }
     public int CurrentSpeed { get; set; }
-    public int PlayerRange { get; protected set; }
+    public int PlayerRange { get; set; }
     public int MaxBomb { get; set; }
-    public int BombExplosionRange { get; set; }
 
     public int Needle { get; protected set; }
     public bool Flowed { get; set; }
@@ -70,7 +69,7 @@ public class Controller : MonoBehaviour
     protected virtual IEnumerator SpawnBombWithDelay(Vector2 position)
     {
         GameObject bomb = Instantiate(WaterBomb, position, Quaternion.identity);
-        bomb.GetComponent<WaterBomb_Execute>().FlowLength = (float)BombExplosionRange;
+        bomb.GetComponent<WaterBomb_Execute>().FlowLength = (float)PlayerRange;
         SnapBomb(bomb);
         CurrentBombs++;
 
@@ -98,13 +97,12 @@ public class Controller : MonoBehaviour
     }
 
     // Method to set character stats
-    public void SetCharacterStats(int speed, int range, int maxBomb, int explosionRange)
+    public void SetCharacterStats(int speed, int range, int maxBomb)
     {
         PlayerSpeedInit = speed;
         CurrentSpeed = speed;
         PlayerRange = range;
         MaxBomb = maxBomb;
-        BombExplosionRange = explosionRange;
         Needle = 2;
         Flowed = false;
     }

@@ -28,7 +28,7 @@ public class Item : MonoBehaviour
         }
         else if (ItemIndex == 1)
         {
-            ObtainPlayerInfo.BombExplosionRange += 1;
+            ObtainPlayerInfo.PlayerRange += 1;
         }
         else
         {

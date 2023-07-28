@@ -7,6 +7,8 @@ public class SpawnMap : MonoBehaviour
     public int[][] MapInfo = new int[13][];
     public int[][] BlockInfo = new int[13][];
 
+    public bool SpawnComplete = false;
+
     public Vector2 SpawnReferencePoint = new Vector2(-7f, 4.1f);
     public Vector2 GapBetweenBlocks = new Vector2(0.7f, 0.7f);
 
@@ -76,6 +78,7 @@ public class SpawnMap : MonoBehaviour
                 }
             }
         }
+        SpawnComplete = true;
     }
 
 }

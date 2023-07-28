@@ -22,6 +22,7 @@ public class Countdown : MonoBehaviour
         StartCoroutine(CountDownNew());
         countdownText.text = playTime.ToString();
     }
+
     /*IEnumerator CountdownToStart()
     {
         while (startTime > 0)
@@ -56,12 +57,10 @@ public class Countdown : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
             startCountdownText.text = "GO!";
             Time.timeScale = 1f;
+            indicator.SetActive(false);
             yield return new WaitForSecondsRealtime(0.5f);
             startCountdownText.gameObject.SetActive(false);
-            Destroy(indicator);
             yield break;
-
-
         }
     }
 
@@ -69,7 +68,7 @@ public class Countdown : MonoBehaviour
     {
         if (playTime > 0 && startTime <= 0)
         {
-            playTime -= Time.fixedDeltaTime;
+            playTime -= Time.deltaTime;
         }
         else if (playTime <= 0)
         {
