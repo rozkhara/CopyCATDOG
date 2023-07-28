@@ -9,6 +9,7 @@ public class Player2 : Controller
     private void Start()
     {
         PlayerAnimator = GetComponent<Animator>();
+        Debug.Log($"Player2 - Speed: {PlayerSpeedInit}, Range: {PlayerRange}, BombCount: {BombCount}, MaxSpeed: {MaxSpeed}, MaxRange: {MaxRange}, MaxBomb: {MaxBomb}");
     }
 
     private void Update()
@@ -26,7 +27,7 @@ public class Player2 : Controller
 
     protected override void HandleBombSpawn()
     {
-        if (Input.GetButtonDown("Player2Bomb") && CurrentBombs < MaxBomb && !Flowed)
+        if (Input.GetButtonDown("Player2Bomb") && CurrentBombs < BombCount && !Flowed)
         {
             Debug.Log(Flowed);
             base.HandleBombSpawn();

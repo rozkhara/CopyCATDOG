@@ -36,7 +36,7 @@ public class Flow_Condition : MonoBehaviour
     private void EndSetting()
     {
         parentController.CurrentSpeed = 0;
-        parentController.MaxBomb = 0;
+        parentController.BombCount = 0;
     }
 
     private IEnumerator MovetoEndScene()

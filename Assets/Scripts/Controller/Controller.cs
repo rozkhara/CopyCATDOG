@@ -15,7 +15,12 @@ public class Controller : MonoBehaviour
 
     public int PlayerSpeedInit { get; set; }
     public int CurrentSpeed { get; set; }
+    public int MaxSpeed { get; set; }
+
     public int PlayerRange { get; set; }
+    public int MaxRange { get; set; }
+
+    public int BombCount { get; set; }
     public int MaxBomb { get; set; }
 
     public int Needle { get; protected set; }
@@ -104,11 +109,14 @@ public class Controller : MonoBehaviour
     }
 
     // Method to set character stats
-    public void SetCharacterStats(int speed, int range, int maxBomb)
+    public void SetCharacterStats(int speed, int range, int bombcount, int maxSpeed, int maxRange, int maxBomb)
     {
         PlayerSpeedInit = speed;
         CurrentSpeed = speed;
         PlayerRange = range;
+        BombCount = bombcount;
+        MaxSpeed = maxSpeed;
+        MaxRange = maxRange;
         MaxBomb = maxBomb;
         Needle = 2;
         Flowed = false;
