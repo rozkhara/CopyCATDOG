@@ -102,13 +102,13 @@ public class GameManager : MonoBehaviour
         CharacterStats[7, 0] = 4; // PlayerSpeed
 
 
-        //For Luxury Marid
+        //For Su
         CharacterStats[8, 5] = 9; // MaxBomb
         CharacterStats[8, 4] = 7; // MaxRange
-        CharacterStats[8, 3] = 9; // MaxSpeed
+        CharacterStats[8, 3] = 10; // MaxSpeed
         CharacterStats[8, 2] = 2; // BombCount
         CharacterStats[8, 1] = 1; // PlayerRange
-        CharacterStats[8, 0] = 5; // PlayerSpeed
+        CharacterStats[8, 0] = 6; // PlayerSpeed
 
         SoundManager.Instance.PlayBGMSound(0.3f);
 
