@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public readonly int[,] CharacterStats = new int[3, 3];
-    // Column are in this order PlayerSpeed,PlayerRange,MaxBomb,BombExplosionRange
+    public readonly int[,] CharacterStats = new int[9, 6];
+    // Column are in this order PlayerSpeed,PlayerRange,BombCount,BombExplosionRange
 
     public GameObject[] PlayerPrefab;
 
@@ -36,22 +36,79 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //For Alpha
+        //For Bazzi
+        CharacterStats[0, 5] = 6; // MaxBomb
+        CharacterStats[0, 4] = 7; // MaxRange
+        CharacterStats[0, 3] = 9; // MaxSpeed
+        CharacterStats[0, 2] = 1; // BombCount
+        CharacterStats[0, 1] = 1; // PlayerRange
         CharacterStats[0, 0] = 5; // PlayerSpeed
-        CharacterStats[0, 1] = 5; // PlayerRange
-        CharacterStats[0, 2] = 5; // MaxBomb
+
+        //For Dao
+        CharacterStats[1, 5] = 10; // MaxBomb
+        CharacterStats[1, 4] = 7; // MaxRange
+        CharacterStats[1, 3] = 7; // MaxSpeed
+        CharacterStats[1, 2] = 1; // BombCount
+        CharacterStats[1, 1] = 1; // PlayerRange
+        CharacterStats[1, 0] = 5; // PlayerSpeed
+
+        //For Dizni
+        CharacterStats[2, 5] = 7; // MaxBomb
+        CharacterStats[2, 4] = 9; // MaxRange
+        CharacterStats[2, 3] = 8; // MaxSpeed
+        CharacterStats[2, 2] = 2; // BombCount
+        CharacterStats[2, 1] = 1; // PlayerRange
+        CharacterStats[2, 0] = 4; // PlayerSpeed
+
+        //For Mos
+        CharacterStats[3, 5] = 8; // MaxBomb
+        CharacterStats[3, 4] = 5; // MaxRange
+        CharacterStats[3, 3] = 8; // MaxSpeed
+        CharacterStats[3, 2] = 1; // BombCount
+        CharacterStats[3, 1] = 1; // PlayerRange
+        CharacterStats[3, 0] = 5; // PlayerSpeed
+
+        //For Uni
+        CharacterStats[4, 5] = 6; // MaxBomb
+        CharacterStats[4, 4] = 7; // MaxRange
+        CharacterStats[4, 3] = 8; // MaxSpeed
+        CharacterStats[4, 2] = 1; // BombCount
+        CharacterStats[4, 1] = 2; // PlayerRange
+        CharacterStats[4, 0] = 5; // PlayerSpeed
+
+        //For Ethi
+        CharacterStats[5, 5] = 10; // MaxBomb
+        CharacterStats[5, 4] = 8; // MaxRange
+        CharacterStats[5, 3] = 8; // MaxSpeed
+        CharacterStats[5, 2] = 2; // BombCount
+        CharacterStats[5, 1] = 1; // PlayerRange
+        CharacterStats[5, 0] = 4; // PlayerSpeed
+
+        //For Marid
+        CharacterStats[6, 5] = 9; // MaxBomb
+        CharacterStats[6, 4] = 6; // MaxRange
+        CharacterStats[6, 3] = 8; // MaxSpeed
+        CharacterStats[6, 2] = 2; // BombCount
+        CharacterStats[6, 1] = 1; // PlayerRange
+        CharacterStats[6, 0] = 4; // PlayerSpeed
 
 
-        //For Beta
-        CharacterStats[1, 0] = 4; // PlayerSpeed
-        CharacterStats[1, 1] = 4; // PlayerRange
-        CharacterStats[1, 2] = 4; // MaxBomb
+        //For Kephi
+        CharacterStats[7, 5] = 9; // MaxBomb
+        CharacterStats[7, 4] = 8; // MaxRange
+        CharacterStats[7, 3] = 8; // MaxSpeed
+        CharacterStats[7, 2] = 1; // BombCount
+        CharacterStats[7, 1] = 2; // PlayerRange
+        CharacterStats[7, 0] = 4; // PlayerSpeed
 
 
-        //For Gamma
-        CharacterStats[2, 0] = 3; // PlayerSpeed
-        CharacterStats[2, 1] = 3; // PlayerRange
-        CharacterStats[2, 2] = 3; // MaxBomb
+        //For Luxury Marid
+        CharacterStats[8, 5] = 9; // MaxBomb
+        CharacterStats[8, 4] = 7; // MaxRange
+        CharacterStats[8, 3] = 9; // MaxSpeed
+        CharacterStats[8, 2] = 2; // BombCount
+        CharacterStats[8, 1] = 1; // PlayerRange
+        CharacterStats[8, 0] = 5; // PlayerSpeed
 
         SoundManager.Instance.PlayBGMSound(0.3f);
 
@@ -75,7 +132,10 @@ public class GameManager : MonoBehaviour
                 playerscript.SetCharacterStats(
                     CharacterStats[Stats - 1, 0],
                     CharacterStats[Stats - 1, 1],
-                    CharacterStats[Stats - 1, 2]
+                    CharacterStats[Stats - 1, 2],
+                    CharacterStats[Stats - 1, 3],
+                    CharacterStats[Stats - 1, 4],
+                    CharacterStats[Stats - 1, 5]
                 );
             }
             player.tag = "Player1";
@@ -93,7 +153,10 @@ public class GameManager : MonoBehaviour
                 playerscript.SetCharacterStats(
                     CharacterStats[Stats - 1, 0],
                     CharacterStats[Stats - 1, 1],
-                    CharacterStats[Stats - 1, 2]
+                    CharacterStats[Stats - 1, 2],
+                    CharacterStats[Stats - 1, 3],
+                    CharacterStats[Stats - 1, 4],
+                    CharacterStats[Stats - 1, 5]
                 );
             }
             player.tag = "Player2";

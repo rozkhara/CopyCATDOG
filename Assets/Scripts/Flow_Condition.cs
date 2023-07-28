@@ -28,9 +28,9 @@ public class Flow_Condition : MonoBehaviour
         Controller Player1Info = Player1.GetComponent<Player1>();
         Controller Player2Info = Player2.GetComponent<Player2>();
 
-        Player1Info.MaxBomb = 0;
+        Player1Info.BombCount = 0;
         Player1Info.CurrentSpeed = 0;
-        Player2Info.MaxBomb = 0;
+        Player2Info.BombCount = 0;
         Player2Info.CurrentSpeed = 0;
     }
 
