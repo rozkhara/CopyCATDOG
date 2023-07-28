@@ -2673,7 +2673,6 @@ MonoBehaviour:
   PlayerPrefab:
   - {fileID: 2529393963659807983, guid: fd2bd03324aa2604a98d742e0e1fe6d4, type: 3}
   - {fileID: 7759527791707479610, guid: a61955ddb986450479cbf7b2c40c7ffb, type: 3}
-  - {fileID: 7759527791707479610, guid: 16bc450277e55744da8da5bd42f064aa, type: 3}
   Player1Spawned: {fileID: 0}
   Player2Spawned: {fileID: 0}
   Player1Select: 1

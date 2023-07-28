@@ -10,5 +10,9 @@ public class GameSceneMove : MonoBehaviour
     {
         tutorialCanvas.SetActive(true);
     }
+    public void SceneMove()
+    {
+        SceneManager.LoadScene("Main Map");
+    }
     
 }

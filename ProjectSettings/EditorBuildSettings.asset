@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main Map Legacy.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 0
@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/End.unity
     guid: 2dd64cdf885bbaf4eb0b7013f9a9435b
+  - enabled: 1
+    path: Assets/Scenes/Main Map.unity
+    guid: 05a77a67831e1c84baf1b296d837ae1d
+  - enabled: 1
+    path: Assets/Scenes/Pick.unity
+    guid: 95c7a68d82ae6f045b6065ea8a024133
   m_configObjects: {}

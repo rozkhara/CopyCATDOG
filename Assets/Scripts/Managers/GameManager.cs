@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public readonly int[,] CharacterStats = new int[3, 4];
+    public readonly int[,] CharacterStats = new int[3, 3];
     // Column are in this order PlayerSpeed,PlayerRange,MaxBomb,BombExplosionRange
 
     public GameObject[] PlayerPrefab;
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     //public GameObject[] Items;
 
     public int Player1Select = 1;
-    public int Player2Select = 3;
+    public int Player2Select = 2;
     private Vector2 StartPosition1 = new(-7f, -4.3f);
     private Vector2 StartPosition2 = new(2.8f, 4.1f);
 
@@ -105,13 +105,10 @@ public class GameManager : MonoBehaviour
         switch (Player1)
         {
             case 1:
-                SpawnPlayers(PlayerPrefab[0], StartPosition1, 1, 1);
+                SpawnPlayers(PlayerPrefab[0], StartPosition1, 1, Player1Select);
                 break;
             case 2:
-                SpawnPlayers(PlayerPrefab[1], StartPosition1, 1, 2);
-                break;
-            case 3:
-                SpawnPlayers(PlayerPrefab[2], StartPosition1, 1, 3);
+                SpawnPlayers(PlayerPrefab[0], StartPosition1, 1, Player1Select);
                 break;
             // Add more cases for other values of Player1 if needed
             default:
@@ -121,17 +118,15 @@ public class GameManager : MonoBehaviour
         switch (Player2)
         {
             case 1:
-                SpawnPlayers(PlayerPrefab[0], StartPosition2, 2, 1);
+                SpawnPlayers(PlayerPrefab[1], StartPosition2, 2, Player2Select);
                 break;
             case 2:
-                SpawnPlayers(PlayerPrefab[1], StartPosition2, 2, 2);
-                break;
-            case 3:
-                SpawnPlayers(PlayerPrefab[2], StartPosition2, 2, 3);
+                SpawnPlayers(PlayerPrefab[1], StartPosition2, 2, Player2Select);
                 break;
             // Add more cases for other values of Player2 if needed
             default:
                 break;
         }
     }
+
 }
