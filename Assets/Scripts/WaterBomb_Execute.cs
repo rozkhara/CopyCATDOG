@@ -66,6 +66,11 @@ public class WaterBomb_Execute : MonoBehaviour
     {
         FlowAll = new float[4];
 
+        Collider2D[] BushBlock = Physics2D.OverlapPointAll(WBpos, BlockLayer);
+
+        foreach (Collider2D Bush in BushBlock)
+            Destroy(Bush.gameObject);
+
         Instantiate(FlowCenterPrefab, WBpos, Quaternion.identity);
 
         for (int i = 0; i < 4; i++)
