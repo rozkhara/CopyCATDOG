@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
@@ -10,20 +9,18 @@ public class Controller : MonoBehaviour
     protected Animator PlayerAnimator;
 
     //This is the timer for bomb explosion. Now it is 3 seconds according to WaterBomb_Execute script
-    protected float BombTimer = 3f; 
+    protected float BombTimer = 3f;
 
     protected int CurrentBombs = 0;
 
-    public int PlayerSpeedInit { get; protected set; }
-
+    public int PlayerSpeedInit { get; set; }
     public int CurrentSpeed { get; set; }
     public int PlayerRange { get; protected set; }
-    public int MaxBomb { get; protected set; }
-    public int BombExplosionRange { get; protected set; }
+    public int MaxBomb { get; set; }
+    public int BombExplosionRange { get; set; }
 
-    public int Needle { get; protected set; } = 2;
-    public bool Flowed { get; set; } = false;
-
+    public int Needle { get; protected set; }
+    public bool Flowed { get; set; }
 
     private void FixedUpdate()
     {
@@ -108,6 +105,8 @@ public class Controller : MonoBehaviour
         PlayerRange = range;
         MaxBomb = maxBomb;
         BombExplosionRange = explosionRange;
+        Needle = 2;
+        Flowed = false;
     }
     public Vector2 FindWBSpawnPoint(GameObject bombObject)
     {
@@ -123,10 +122,10 @@ public class Controller : MonoBehaviour
 
     protected virtual void UseNeedle()
     {
-        this.Needle--;
-        Destroy(this.transform.GetChild(0).gameObject);
+        Needle--;
+        Destroy(transform.GetChild(0).gameObject);
         PlayerAnimator.SetTrigger("Needle");
-        this.Flowed = false;
-        this.CurrentSpeed = this.PlayerSpeedInit;
+        Flowed = false;
+        CurrentSpeed = PlayerSpeedInit;
     }
 }

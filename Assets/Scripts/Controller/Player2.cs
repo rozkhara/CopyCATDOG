@@ -27,15 +27,16 @@ public class Player2 : Controller
 
     protected override void HandleBombSpawn()
     {
-        if (Input.GetButtonDown("Player2Bomb") && CurrentBombs < MaxBomb && !this.Flowed)
+        if (Input.GetButtonDown("Player2Bomb") && CurrentBombs < MaxBomb && !Flowed)
         {
+            Debug.Log(Flowed);
             base.HandleBombSpawn();
         }
     }
 
     protected override void UseNeedle()
     {
-        if (Input.GetButtonDown("Player2Needle") && this.Needle > 0 && this.Flowed)
+        if (Input.GetButtonDown("Player2Needle") && Needle > 0 && Flowed)
         {
             base.UseNeedle();
         }

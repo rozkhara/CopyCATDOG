@@ -32,7 +32,7 @@ public class Player1 : Controller
 
     protected override void UseNeedle()
     {
-        if (Input.GetButtonDown("Player1Needle") && this.Needle > 0 && this.Flowed)
+        if (Input.GetButtonDown("Player1Needle") && Needle > 0 && Flowed)
         {
             base.UseNeedle();
         }

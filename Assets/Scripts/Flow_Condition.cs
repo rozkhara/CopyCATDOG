@@ -1,35 +1,44 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Flow_Condition : MonoBehaviour
 {
-    private Collider2D Flow;
-    private ContactFilter2D PlayerFilter;
-    private LayerMask PlayerLayer = 8;
-    private Collider2D[] Results = new Collider2D[2];
+    private int PlayerLayer = 3;
 
-    private int IsOverlap;
-
-    // Start is called before the first frame update
-    private void Awake()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Flow = GetComponent<Collider2D>();
-        PlayerFilter.SetLayerMask(PlayerLayer);
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        OverlapPlayer();
-    }
-
-    private void OverlapPlayer()
-    {
-        IsOverlap = Physics2D.OverlapCollider(Flow, PlayerFilter, Results);
-
-        if(IsOverlap > 1)
+        if (other.gameObject.layer == PlayerLayer)
         {
-            Debug.Log("Overlap");
+            if (other.gameObject.CompareTag("Player1"))
+            {
+                EndSetting(other.gameObject, transform.parent.gameObject);
+            }
+            else
+            {
+                EndSetting(transform.parent.gameObject, other.gameObject);
+            }
+
+            StartCoroutine(MovetoEndScene());
         }
+    }
+
+    private void EndSetting(GameObject Player1, GameObject Player2)
+    {
+        Controller Player1Info = Player1.GetComponent<Player1>();
+        Controller Player2Info = Player2.GetComponent<Player2>();
+
+        Player1Info.MaxBomb = 0;
+        Player1Info.CurrentSpeed = 0;
+        Player2Info.MaxBomb = 0;
+        Player2Info.CurrentSpeed = 0;
+    }
+
+    private IEnumerator MovetoEndScene()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("End");
+        yield break;
     }
 }
 

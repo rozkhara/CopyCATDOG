@@ -16,8 +16,10 @@ public class WaterBomb_Execute : MonoBehaviour
     private Vector2[] direction = new Vector2[] { Vector2.right, Vector2.left, Vector2.up, Vector2.down };
     private float[] FlowAll;
 
-    public GameObject ItemPrefab;
-    private float[] ItemPercent = new float[] { 10, 20, 30, 70 };
+    public GameObject SpeedBoost;
+    public GameObject RangeBoost;
+    public GameObject MaxWBBoost;
+    private float[] ItemPercent = new float[] { 10, 10, 10, 70 };
 
     public GameObject Flow_Condition;
     private GameObject FlowBackground;
@@ -84,6 +86,7 @@ public class WaterBomb_Execute : MonoBehaviour
                     if (RandomPoint < ItemPercent[i])
                     {
                         DropItem(isHit.collider.transform.position, i);
+                        break;
                     }
                     else
                     {
@@ -101,8 +104,7 @@ public class WaterBomb_Execute : MonoBehaviour
 
     private void BurstItem(float Flow, Vector2 direction)
     {
-        //TODO: raycast로 변경
-        RaycastHit2D[] ItemHit = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction, Flow, ItemLayer);
+        RaycastHit2D[] ItemHit = Physics2D.RaycastAll(WBpos, direction, Flow, ItemLayer);
 
         foreach (RaycastHit2D Item in ItemHit)
         {
@@ -111,9 +113,17 @@ public class WaterBomb_Execute : MonoBehaviour
     }
     private void DropItem(Vector2 BlockPosition, int ItemNumber)
     {
+        if (ItemNumber == 0)
+        {
+            Instantiate(SpeedBoost, BlockPosition, Quaternion.identity);
+        }
+        if (ItemNumber == 1)
+        {
+            Instantiate(RangeBoost, BlockPosition, Quaternion.identity);
+        }
         if (ItemNumber == 2)
         {
-            Instantiate(ItemPrefab, BlockPosition, Quaternion.identity);
+            Instantiate(MaxWBBoost, BlockPosition, Quaternion.identity);
         }
     }
     private void WBBurstPlayer()
@@ -136,21 +146,33 @@ public class WaterBomb_Execute : MonoBehaviour
 
         for (int i = 0; i < PlayerHit.Count; i++)
         {
-            Controller FlowedPlayerInfo = PlayerHit[i].GetComponent<Controller>();
+            Collider2D TargetPlayer = PlayerHit[i];
 
-            if (FlowedPlayerInfo.Flowed != true)
+            Controller FlowedPlayer1Info = TargetPlayer.GetComponent<Player1>();
+            Controller FlowedPlayer2Info = TargetPlayer.GetComponent<Player2>();
+
+            if (PlayerHit[i].CompareTag("Player1") && FlowedPlayer1Info.Flowed != true)
             {
-                FlowedPlayerInfo.Flowed = true;
-
-                float PlayerX = FlowedPlayerInfo.transform.position.x;
-                float PlayerY = FlowedPlayerInfo.transform.position.y;
-                Vector2 PlayerPos = new Vector2(PlayerX, PlayerY);
-
-                FlowBackground = Instantiate(Flow_Condition, PlayerPos, transform.rotation);
-                FlowBackground.transform.parent = PlayerHit[i].transform;
-
-                FlowedPlayerInfo.CurrentSpeed = 1;
+                MakePlayerFlowed(FlowedPlayer1Info, TargetPlayer);
+            }
+            else if (PlayerHit[i].CompareTag("Player2") && FlowedPlayer2Info.Flowed != true)
+            {
+                MakePlayerFlowed(FlowedPlayer2Info, TargetPlayer);
             }
         }
+    }
+
+    private void MakePlayerFlowed(Controller FlowedPlayerInfo, Collider2D TargetPlayer)
+    {
+        FlowedPlayerInfo.Flowed = true;
+
+        float PlayerX = FlowedPlayerInfo.transform.position.x;
+        float PlayerY = FlowedPlayerInfo.transform.position.y;
+        Vector2 PlayerPos = new Vector2(PlayerX, PlayerY);
+
+        FlowBackground = Instantiate(Flow_Condition, PlayerPos, transform.rotation);
+        FlowBackground.transform.parent = TargetPlayer.transform;
+
+        FlowedPlayerInfo.CurrentSpeed = 1;
     }
 }

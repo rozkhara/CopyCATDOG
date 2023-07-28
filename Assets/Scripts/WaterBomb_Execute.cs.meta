@@ -4,8 +4,11 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - ItemPrefab: {fileID: 9020121623503461080, guid: 39c404fc584f0404cae751c808ef5052, type: 3}
+  - SpeedBoost: {fileID: 9020121623503461080, guid: 39c404fc584f0404cae751c808ef5052, type: 3}
+  - RangeBoost: {fileID: 9020121623503461080, guid: 97a121a598518514c8aaef5c0c37ced5, type: 3}
+  - MaxWBBoost: {fileID: 9020121623503461080, guid: 961c7bd26f3cf3340a36f2159b7aa5d2, type: 3}
   - Flow_Condition: {fileID: 4722547937941086577, guid: 984397b3f7e8fb94580f9eddc4d806d1, type: 3}
+  - airplane: {fileID: 5449556878822606691, guid: 078fa1ea62daae947a3542ebe9aee05c, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
