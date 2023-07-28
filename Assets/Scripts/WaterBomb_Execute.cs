@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WaterBomb_Execute : MonoBehaviour
@@ -26,6 +27,12 @@ public class WaterBomb_Execute : MonoBehaviour
 
     public GameObject airplane;
 
+    public GameObject FlowCenterPrefab;
+    public GameObject FlowRightPrefab;
+    public GameObject FlowLeftPrefab;
+    public GameObject FlowUpPrefab;
+    public GameObject FlowDownPrefab;
+
     private void Start()
     {
         StartCoroutine(WBExceed());
@@ -40,7 +47,7 @@ public class WaterBomb_Execute : MonoBehaviour
 
     private IEnumerator GetWBPos()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForEndOfFrame();
         WBpos = new Vector2(transform.position.x, transform.position.y);
         FlowLengthRaw = FlowLength * 0.7f;
         yield break;
@@ -58,14 +65,18 @@ public class WaterBomb_Execute : MonoBehaviour
     {
         FlowAll = new float[4];
 
+        Instantiate(FlowCenterPrefab, WBpos, Quaternion.identity);
+
         for (int i = 0; i < 4; i++)
         {
-            WBBurstBlockandItem(direction[i], ref FlowAll[i]);
+            WBBurstBlockandItem(direction[i], ref FlowAll[i], i);
         }
+        
+        
     }
 
 
-    private void WBBurstBlockandItem(Vector2 direction, ref float Flow)
+    private void WBBurstBlockandItem(Vector2 direction, ref float Flow, int p)
     {
         RaycastHit2D isHit = Physics2D.Raycast(WBpos, direction, FlowLengthRaw, BlockLayer);
 
@@ -100,6 +111,8 @@ public class WaterBomb_Execute : MonoBehaviour
             Flow = FlowLengthRaw;
             BurstItem(Flow, direction);
         }
+
+        FlowSprite(Flow, p);
     }
 
     private void BurstItem(float Flow, Vector2 direction)
@@ -126,14 +139,54 @@ public class WaterBomb_Execute : MonoBehaviour
             Instantiate(MaxWBBoost, BlockPosition, Quaternion.identity);
         }
     }
+
+    private void FlowSprite(float length, int i)
+    {
+        int SpriteNumber = Mathf.RoundToInt((length - 0.35f) / 0.7f);
+
+        if(i == 0)
+        {
+            for(int k = 1; k <= SpriteNumber; k++)
+            {
+                Vector2 SpritePos = new Vector2((float)(WBpos.x + 0.7 * k), WBpos.y);
+                Instantiate(FlowRightPrefab, SpritePos, Quaternion.identity);
+            }
+        }
+        else if (i == 1)
+        {
+            for (int k = 1; k <= SpriteNumber; k++)
+            {
+                Vector2 SpritePos = new Vector2((float)(WBpos.x - 0.7 * k), WBpos.y);
+                Instantiate(FlowLeftPrefab, SpritePos, Quaternion.identity);
+            }
+        }
+        else if (i == 2)
+        {
+            for (int k = 1; k <= SpriteNumber; k++)
+            {
+                Vector2 SpritePos = new Vector2(WBpos.x, (float)(WBpos.y + 0.7 * k));
+                Instantiate(FlowUpPrefab, SpritePos, Quaternion.identity);
+            }
+        }
+        else if (i == 3)
+        {
+            for (int k = 1; k <= SpriteNumber; k++)
+            {
+                Vector2 SpritePos = new Vector2(WBpos.x, (float)(WBpos.y - 0.7 * k));
+                Instantiate(FlowDownPrefab, SpritePos, Quaternion.identity);
+            }
+        }
+    }
+
+
     private void WBBurstPlayer()
     {
         List<Collider2D> PlayerHit = new();
 
-        RaycastHit2D[] HitinfoR = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction[0], FlowAll[0], PlayerLayer);
-        RaycastHit2D[] HitinfoL = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction[1], FlowAll[1], PlayerLayer);
-        RaycastHit2D[] HitinfoU = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction[2], FlowAll[2], PlayerLayer);
-        RaycastHit2D[] HitinfoD = Physics2D.BoxCastAll(WBpos, new Vector2(0.7f, 0.7f), 0f, direction[3], FlowAll[3], PlayerLayer);
+        RaycastHit2D[] HitinfoR = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[0], FlowAll[0], PlayerLayer);
+        RaycastHit2D[] HitinfoL = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[1], FlowAll[1], PlayerLayer);
+        RaycastHit2D[] HitinfoU = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[2], FlowAll[2], PlayerLayer);
+        RaycastHit2D[] HitinfoD = Physics2D.BoxCastAll(WBpos, new Vector2(0.64f, 0.64f), 0f, direction[3], FlowAll[3], PlayerLayer);
 
         foreach (RaycastHit2D player in HitinfoR)
             PlayerHit.Add(player.collider);
