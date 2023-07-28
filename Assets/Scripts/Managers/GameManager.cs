@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour
         CharacterStats[2, 2] = 3; // MaxBomb
         CharacterStats[2, 3] = 3; // BombExplosionRange
 
-        CheckPlayer(Player1Select, Player2Select);
+        CheckPlayer(PickCharacter.CurrentCharacter1p, PickCharacter.CurrentCharacter2p);
+
     }
 
     private void SpawnPlayers(GameObject Prefab, Vector2 Position, int playerIndex, int Stats)

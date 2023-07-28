@@ -9,6 +9,11 @@ public class PickCharacter : MonoBehaviour
     public GameObject selectBar1p;
     public GameObject selectBar2p;
 
+    //Variables for GameManager to spawn 
+    public static int CurrentCharacter1p { get; private set; } = 1; 
+    public static int CurrentCharacter2p { get; private set; } = 1; 
+
+
     private int current1pCharacter = 1; //character number
     private int current2pCharacter = 1;
 
@@ -76,6 +81,7 @@ public class PickCharacter : MonoBehaviour
                 bar1pCanMove = false;
                 StartCoroutine(BarMove(1, next1pPos));
                 current1pCharacter++;
+                CurrentCharacter1p++;
             }
 
             if (current1pCharacter > 1 && Input.GetKeyDown(KeyCode.A))
@@ -85,6 +91,7 @@ public class PickCharacter : MonoBehaviour
                 bar1pCanMove = false;
                 StartCoroutine(BarMove(1, next1pPos));
                 current1pCharacter--;
+                CurrentCharacter1p--;
             }
         }
 
@@ -97,6 +104,7 @@ public class PickCharacter : MonoBehaviour
                 bar2pCanMove = false;
                 StartCoroutine(BarMove(2, next2pPos));
                 current2pCharacter++;
+                CurrentCharacter2p++;
             }
 
             if (current2pCharacter > 1 && Input.GetKeyDown(KeyCode.LeftArrow))
@@ -106,6 +114,7 @@ public class PickCharacter : MonoBehaviour
                 bar2pCanMove = false;
                 StartCoroutine(BarMove(2, next2pPos));
                 current2pCharacter--;
+                CurrentCharacter2p--;
             }
         }
     }
