@@ -14,13 +14,15 @@ public class Countdown : MonoBehaviour
     [SerializeField]
     private Text startCountdownText;
 
+    [SerializeField]
+    private GameObject indicator;
+
     private void Start()
     {
-        StartCoroutine(CountdownToStart());
+        StartCoroutine(CountDownNew());
         countdownText.text = playTime.ToString();
-
     }
-    IEnumerator CountdownToStart()
+    /*IEnumerator CountdownToStart()
     {
         while (startTime > 0)
         {
@@ -37,13 +39,37 @@ public class Countdown : MonoBehaviour
 
         startCountdownText.gameObject.SetActive(false);
         yield return null;
+    }*/
+
+    private IEnumerator CountDownNew()
+    {
+        while (true)
+        {
+            Time.timeScale = 0f;
+            startCountdownText.text = startTime.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+            startTime--;
+            startCountdownText.text = startTime.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+            startTime--;
+            startCountdownText.text = startTime.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+            startCountdownText.text = "GO!";
+            Time.timeScale = 1f;
+            yield return new WaitForSecondsRealtime(0.5f);
+            startCountdownText.gameObject.SetActive(false);
+            Destroy(indicator);
+            yield break;
+
+
+        }
     }
 
     private void FixedUpdate()
     {
         if (playTime > 0 && startTime <= 0)
         {
-            playTime -= Time.deltaTime;
+            playTime -= Time.fixedDeltaTime;
         }
         else if (playTime <= 0)
         {

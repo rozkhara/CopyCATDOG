@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public int Player1Select = 1;
     public int Player2Select = 1;
     private Vector2 StartPosition1 = new(-7f, -4.3f);
-    private Vector2 StartPosition2 = new(3f, 4.4f);
+    private Vector2 StartPosition2 = new(2.8f, 4.1f);
 
     // Start is called before the first frame update
     void Start()
