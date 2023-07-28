@@ -67,7 +67,6 @@ public class Controller : MonoBehaviour
     {
         GameObject bomb = Instantiate(WaterBomb, position, Quaternion.identity);
         bomb.GetComponent<WaterBomb_Execute>().FlowLength = (float)BombExplosionRange;
-        bomb.GetComponent<Collider2D>().isTrigger = true;
         SnapBomb(bomb);
         CurrentBombs++;
 

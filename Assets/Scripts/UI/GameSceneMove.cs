@@ -5,11 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class GameSceneMove : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public void GameScenesCtrl()
+    public GameObject tutorialCanvas;
+    public void ShowTutorial()
     {
-        SceneManager.LoadScene("Main Map");
+        tutorialCanvas.SetActive(true);
     }
-
     
 }
