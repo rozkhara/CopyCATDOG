@@ -14,8 +14,11 @@ public class Player2 : Controller
 
     private void Update()
     {
-        HandleBombSpawn();
-        UseNeedle();
+        if (Time.timeScale > 0f)
+        {
+            HandleBombSpawn();
+            UseNeedle();
+        }
     }
 
     protected override void HandlePlayerMovement()
