@@ -37,7 +37,7 @@ public class Needle : MonoBehaviour
         player1 = GameObject.FindWithTag("Player1");
         player2 = GameObject.FindWithTag("Player2");
 
-        player1Info = player1.GetComponent<Controller>();
+        player1Info = player1.GetComponent<Player1>();
         player2Info = player2.GetComponent<Player2>();
 
         IsFind = true;
