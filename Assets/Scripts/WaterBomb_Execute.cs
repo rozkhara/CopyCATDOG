@@ -49,7 +49,7 @@ public class WaterBomb_Execute : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         WBpos = new Vector2(transform.position.x, transform.position.y);
-        FlowLengthRaw = 0.35f + (FlowLength - 1) * 0.7f;
+        FlowLengthRaw = 0.35f + FlowLength * 0.7f;
         yield break;
     }
 
