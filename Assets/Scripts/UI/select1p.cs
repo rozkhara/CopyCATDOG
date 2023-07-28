@@ -5,30 +5,49 @@ using UnityEngine;
 public class select1p : MonoBehaviour
 {
     public int CurState = 0;
-    public int NextState = 0;
+    public int NextXState = 0;
+    public int NextYState = 0;
 
     public int IsRunning = 0;
 
-    private bool ready1p = false;
+    public bool ready1p = false;
 
+    private Color Color1p = new Color32(255, 184, 184, 255);
 
-    private Vector2 ReferencePosition = new Vector2(-19.33333f, 0f);
-    private Vector2 Gap = new Vector2(7f, 0f);
+    private Vector2 ReferencePosition = new Vector2(-21f, 3.3f);
+    private Vector2 GapX = new Vector2(8f, 0f);
+    private Vector2 GapY = new Vector2(0f, -6f);
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Set1pReady();
+
+        }
         if (!ready1p)
         {
-            if (Input.GetKeyDown(KeyCode.D) && NextState < 2)
+            if (Input.GetKeyDown(KeyCode.D) && NextXState < 2)
             {
-                NextState++;
+                NextXState++;
                 StartCoroutine(BarTranslate());
             }
-            if (Input.GetKeyDown(KeyCode.A) && NextState > 0)
+            if (Input.GetKeyDown(KeyCode.A) && NextXState > 0)
             {
-                NextState--;
+                NextXState--;
                 StartCoroutine(BarTranslate());
             }
+            if (Input.GetKeyDown(KeyCode.W) && NextYState > 0)
+            {
+                NextYState--;
+                StartCoroutine(BarTranslate());
+            }
+            if (Input.GetKeyDown(KeyCode.S) && NextYState < 2)
+            {
+                NextYState++;
+                StartCoroutine(BarTranslate());
+            }
+
         }
 
     }
@@ -50,17 +69,26 @@ public class select1p : MonoBehaviour
                 IsRunning--;
                 yield break;
             }
-            this.transform.position = Vector3.Lerp(startPos, ReferencePosition + Gap * NextState, elapsedTime / 0.5f);
+            this.transform.position = Vector3.Lerp(startPos, ReferencePosition + GapX * NextXState + GapY * NextYState, elapsedTime / 0.2f);
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        CurState = NextState;
+        CurState = NextXState + NextYState * 3;
         IsRunning--;
         yield return null;
     }
 
     public void Set1pReady()
     {
-        ready1p = true;
+        ready1p = !ready1p;
+        if (ready1p)
+        {
+            this.GetComponent<SpriteRenderer>().color = Color.yellow;
+        }
+        else
+        {
+            this.GetComponent<SpriteRenderer>().color = Color1p;
+        }
+
     }
 }

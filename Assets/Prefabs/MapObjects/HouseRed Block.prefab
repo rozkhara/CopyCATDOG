@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -1186468770222528826}
   m_Layer: 8
   m_Name: HouseRed Block
-  m_TagString: Untagged
+  m_TagString: CannotDestroy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

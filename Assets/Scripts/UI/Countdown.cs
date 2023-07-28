@@ -44,8 +44,7 @@ public class Countdown : MonoBehaviour
 
     private IEnumerator CountDownNew()
     {
-        while (true)
-        {
+
             Time.timeScale = 0f;
             startCountdownText.text = startTime.ToString();
             yield return new WaitForSecondsRealtime(1f);
@@ -56,12 +55,12 @@ public class Countdown : MonoBehaviour
             startCountdownText.text = startTime.ToString();
             yield return new WaitForSecondsRealtime(1f);
             startCountdownText.text = "GO!";
+            startTime--;
             Time.timeScale = 1f;
             indicator.SetActive(false);
             yield return new WaitForSecondsRealtime(0.5f);
             startCountdownText.gameObject.SetActive(false);
             yield break;
-        }
     }
 
     private void FixedUpdate()
@@ -69,13 +68,12 @@ public class Countdown : MonoBehaviour
         if (playTime > 0 && startTime <= 0)
         {
             playTime -= Time.deltaTime;
+            countdownText.text = Mathf.Round(playTime).ToString();
         }
         else if (playTime <= 0)
         {
-            Time.timeScale = 0.0f;
+            playTime = 0;
+            countdownText.text = playTime.ToString();
         }
-
-        countdownText.text = Mathf.Round(playTime).ToString();
-
     }
 }
