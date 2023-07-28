@@ -9,7 +9,7 @@ public class Player2 : Controller
     private void Start()
     {
         PlayerAnimator = GetComponent<Animator>();
-        Debug.Log($"Player2 - Speed: {PlayerSpeedInit}, Range: {PlayerRange}, BombCount: {BombCount}, MaxSpeed: {MaxSpeed}, MaxRange: {MaxRange}, MaxBomb: {MaxBomb}");
+        //Debug.Log($"Player2 - Speed: {PlayerSpeedInit}, Range: {PlayerRange}, BombCount: {BombCount}, MaxSpeed: {MaxSpeed}, MaxRange: {MaxRange}, MaxBomb: {MaxBomb}");
     }
 
     private void Update()

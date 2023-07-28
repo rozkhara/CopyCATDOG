@@ -87,8 +87,8 @@ public class select2p : MonoBehaviour
         {
             this.GetComponent<SpriteRenderer>().color = Color.yellow;
             CurrentCharacter2p = CurState;
-            Debug.Log("Player 2");
-            Debug.Log(CurrentCharacter2p);
+            //Debug.Log("Player 2");
+            //Debug.Log(CurrentCharacter2p);
         }
         else
         {
