@@ -119,8 +119,6 @@ public class GameManager : MonoBehaviour
         CharacterStats[8, 1] = 1; // PlayerRange
         CharacterStats[8, 0] = 6; // PlayerSpeed
 
-        SoundManager.Instance.PlayBGMSound(0.3f);
-
         Player1Select = select1p.CurrentCharacter1p;
 
         Player2Select = select2p.CurrentCharacter2p;

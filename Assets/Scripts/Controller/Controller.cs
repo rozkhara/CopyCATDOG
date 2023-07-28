@@ -90,7 +90,6 @@ public class Controller : MonoBehaviour
         CurrentBombs--; // Decrease CurrentBombs after the bomb explodes
     }
 
-    //FIXME: have to change the code after getting DHHS implemented
     private bool CanPlaceBomb(Vector2 bombPosition)
     {
         return !Physics2D.OverlapPoint(FindWBSpawnPoint(bombPosition), 64);
