@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
     public GameObject Player1Spawned;
     public GameObject Player2Spawned;
 
-    //public GameObject[] Items;
 
     public int Player1Select = 1;
     public int Player2Select = 2;

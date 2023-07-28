@@ -8,4 +8,9 @@ public class NewBehaviourScript : MonoBehaviour
     {
         SceneManager.LoadScene("Pick_New");
     }
+
+    public void QuitButton()
+    {
+        Application.Quit();
+    }
 }

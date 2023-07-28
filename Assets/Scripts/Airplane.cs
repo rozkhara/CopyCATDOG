@@ -31,22 +31,6 @@ public class Airplane : MonoBehaviour
     private int yRandom;
     private bool IsItemDropped = false;
 
-
-
-    //void Start()
-    //{
-    //    box = GameObject.FindGameObjectsWithTag("CanDestroy");
-
-    //    for (int i = 0; i < box.Length; i++)
-    //    {
-    //        int xIndex = (int)Mathf.Round((float)(box[i].transform.position.x + 7f) / 0.7f);
-    //        int yIndex = (int)Mathf.Round((float)(box[i].transform.position.y + 4.3f) / 0.7f);
-    //        isFull[xIndex, yIndex] = true;
-    //    }
-
-    //    StartCoroutine(ExecuteAirplane());
-    //}
-
     private void Update()
     {
         if (spawnMap.SpawnComplete && !Initialized)
@@ -72,6 +56,10 @@ public class Airplane : MonoBehaviour
 
         if (IsAirplaneSpawn)
         {
+            if (!IsItemDropped)
+            {
+                StartCoroutine(AirplaneDrop());
+            }
             if (!AirplaneCoroutineRunning)
             {
                 StartCoroutine(MoveAirPlane());
@@ -86,17 +74,14 @@ public class Airplane : MonoBehaviour
         while (true)
         {
             Airplaneobj.transform.position = Vector2.MoveTowards(Airplaneobj.transform.position, AirplaneTarget, 0.03f);
-            if (!IsItemDropped)
-            {
-                StartCoroutine(AirplaneDrop());
-            }
-
+            
             if (Airplaneobj.transform.position.x == AirplaneTarget.x)
             {
                 IsAirplaneSpawn = false;
                 Destroy(Airplaneobj);
                 AirplaneCoroutineRunning = false;
                 IsItemDropped = false;
+                yield return new WaitForEndOfFrame();
                 yield break;
             }
             yield return new WaitForEndOfFrame();
@@ -108,7 +93,6 @@ public class Airplane : MonoBehaviour
         int xIndex = (int)Mathf.Round((float)(transform.position.x + 7f) / 0.7f);
         int yIndex = (int)Mathf.Round((float)(transform.position.y + 4.3f) / 0.7f);
         isFull[xIndex, yIndex] = false;
-        Debug.Log(xIndex + "," + yIndex + " is now empty.");
     }
 
     private IEnumerator ExecuteAirplane()
@@ -123,7 +107,6 @@ public class Airplane : MonoBehaviour
 
     private IEnumerator AirplaneDrop()
     {
-        yield return new WaitForSeconds(2f);
         if (!IsItemDropped)
         {
             float RandomPoint = Random.value * 100;
@@ -132,9 +115,9 @@ public class Airplane : MonoBehaviour
                 if (RandomPoint < ItemPercent[i])
                 {
                     randomFreePos = RandomPosition();
-                    DropItem(randomFreePos, i);
                     IsItemDropped = true;
-                    Debug.Log("DropItem");
+                    yield return new WaitForSeconds(2f);
+                    DropItem(randomFreePos, i);
                     break;
                 }
                 else
@@ -161,7 +144,6 @@ public class Airplane : MonoBehaviour
         {
             Instantiate(MaxWBBoost, FreePosition, Quaternion.identity);
         }
-        IsItemDropped = true;
     }
 
     private Vector2 RandomPosition()
