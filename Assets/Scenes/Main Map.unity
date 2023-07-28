@@ -1857,6 +1857,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Airplane
       objectReference: {fileID: 0}
+    - target: {fileID: 5449556878822606691, guid: 078fa1ea62daae947a3542ebe9aee05c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2306,7 +2310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1987134071
 MonoBehaviour:
   m_ObjectHideFlags: 0

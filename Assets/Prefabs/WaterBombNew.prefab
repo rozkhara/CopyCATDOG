@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32a0973c30ed7c4a852a0bb7ef61d99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InnerBox: {x: 0, y: 0}
-  BoxCenter: {x: 0, y: 0}
+  bombSize: {x: 0.7, y: 0.7}
+  SpawnedBy: {fileID: 0}
 --- !u!50 &-1105662720714535022
 Rigidbody2D:
   serializedVersion: 4

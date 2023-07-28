@@ -4,10 +4,27 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    readonly int[,] CharacterStats = new int[3, 4];
+    private static GameManager instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<GameManager>();
+            }
+
+            return instance;
+        }
+    }
+
+    public readonly int[,] CharacterStats = new int[3, 4];
     // Column are in this order PlayerSpeed,PlayerRange,MaxBomb,BombExplosionRange
 
     public GameObject[] PlayerPrefab;
+
+    public GameObject Player1Spawned;
+    public GameObject Player2Spawned;
 
     //public GameObject[] Items;
 
@@ -61,6 +78,7 @@ public class GameManager : MonoBehaviour
                 );
             }
             player.tag = "Player1";
+            Player1Spawned = player;
         }
         else if (playerIndex == 2)
         {
@@ -78,6 +96,7 @@ public class GameManager : MonoBehaviour
                 );
             }
             player.tag = "Player2";
+            Player2Spawned = player;
         }
     }
 
